@@ -15,9 +15,9 @@ class SwatchModel{
     var blue = Random().nextInt(255);
 
     if(mix != null){
-      red = (red + mix.red)/2 as int;
-      green = (green + mix.green)/2 as int;
-      blue = (blue + mix.blue)/2 as int;
+      red = ((red + mix.red)/2).round();
+      green = ((green + mix.green)/2).round();
+      blue = ((blue + mix.blue)/2).round();
     }
 
     this._color = Color.fromARGB(255, red, green, blue);
