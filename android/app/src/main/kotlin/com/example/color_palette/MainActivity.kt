@@ -1,4 +1,4 @@
-package com.example.color_palette
+package com.tsonnen.color_palette
 
 import io.flutter.embedding.android.FlutterActivity
 
