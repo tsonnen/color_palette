@@ -20,6 +20,6 @@ class SwatchModel{
       blue = ((blue + mix.blue)/2).round();
     }
 
-    this._color = Color.fromARGB(255, red, green, blue);
+    _color = Color.fromARGB(255, red, green, blue);
   }
 }

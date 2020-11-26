@@ -1,3 +1,4 @@
+import 'package:color_palette/services/preference_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class SettingsPageState extends State<SettingsPage> {
           RadioPreference(
             'Random',
             GenMethod.rand.index,
-            'gen_method',
+            PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
             isDefault: true,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
@@ -36,7 +37,7 @@ class SettingsPageState extends State<SettingsPage> {
           RadioPreference(
             'Pastel',
             GenMethod.pastel.index,
-            'gen_method',
+            PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .setGenMethod(GenMethod.pastel);
@@ -45,7 +46,7 @@ class SettingsPageState extends State<SettingsPage> {
           RadioPreference(
             'Median',
             GenMethod.median.index,
-            'gen_method',
+            PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .setGenMethod(GenMethod.median);

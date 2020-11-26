@@ -1,5 +1,4 @@
 import 'package:color_palette/models/color_palette_model.dart';
-import 'package:color_palette/services/preference_manager.dart';
 import 'package:color_palette/widgets/color_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import 'settings_screen.dart';
 class ColorPaletteScreen extends StatefulWidget {
   ColorPaletteScreen();
 
+  @override
   ColorPaletteScreenState createState() => ColorPaletteScreenState();
 }
 
@@ -22,18 +22,18 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Color Palette"),
+        title: Text('Color Palette'),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              child: Text("Color Palette"),
+              child: Text('Color Palette'),
             ),
             ListTile(
                 leading: Icon(Icons.settings),
-                title: Text("Settings"),
+                title: Text('Settings'),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(

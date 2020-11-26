@@ -7,6 +7,7 @@ class ColorChip extends StatefulWidget{
 
   const ColorChip(this.swatchModel);
 
+  @override
   ColorChipState createState() => ColorChipState();
 }
 
@@ -14,14 +15,14 @@ class ColorChipState extends State<ColorChip>{
 
   @override
   Widget build(BuildContext context) {
-    SwatchModel swatchModel = widget.swatchModel;
-    Color textColor =
+    var swatchModel = widget.swatchModel;
+    var textColor =
         swatchModel.color.computeLuminance() < .5 ? Colors.white : Colors.black;
     return DecoratedBox(
         decoration: BoxDecoration(
           color: swatchModel.color,
         ),
-        child: new Row(children: <Widget>[
+        child: Row(children: <Widget>[
           IconButton(
             icon: Icon(swatchModel.lock ? Icons.lock : Icons.lock_open),
             color: textColor,
@@ -31,7 +32,7 @@ class ColorChipState extends State<ColorChip>{
               });
             },
           ),
-          new Container(
+          Container(
             child: Text(
               swatchModel.color.toString(),
               style: TextStyle(color: textColor),

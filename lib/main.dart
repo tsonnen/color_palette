@@ -8,14 +8,14 @@ import 'screens/color_palette_screeen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PrefService.init(prefix: 'pref_');
+  await PrefService.init(prefix: PreferenceManager.prefix);
 
-  await PreferenceManger.getPreferences();
+  await PreferenceManager.getPreferences();
 
-  ColorPaletteModel colorPaletteModel =
-      new ColorPaletteModel(5, PreferenceManger.getGenMethod());
   runApp(ChangeNotifierProvider(
-      create: (context) => colorPaletteModel, child: MyApp()));
+      create: (context) =>
+          ColorPaletteModel(5, PreferenceManager.getGenMethod()),
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        brightness: Brightness.dark,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
