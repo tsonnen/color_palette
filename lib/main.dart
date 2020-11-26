@@ -1,15 +1,21 @@
-import 'package:color_palette/screens/color_palette_screeen.dart';
-
-import 'services/preference_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preference_service.dart';
+
+import 'models/color_palette_model.dart';
+import 'services/preference_manager.dart';
+import 'screens/color_palette_screeen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PrefService.init(prefix: 'pref_');
 
   await PreferenceManger.getPreferences();
-  runApp(MyApp());
+
+  ColorPaletteModel colorPaletteModel =
+      new ColorPaletteModel(5, PreferenceManger.getGenMethod());
+  runApp(ChangeNotifierProvider(
+      create: (context) => colorPaletteModel, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,4 +32,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

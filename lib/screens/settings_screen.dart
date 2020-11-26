@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
+import 'package:provider/provider.dart';
 
 import '../models/color_palette_model.dart';
 
 class SettingsPage extends StatefulWidget {
   static final String route = 'Settings-Page';
-  final ColorPaletteModel colorPalette;
 
-  SettingsPage(this.colorPalette);
+  SettingsPage();
 
   @override
   SettingsPageState createState() => SettingsPageState();
@@ -29,7 +29,8 @@ class SettingsPageState extends State<SettingsPage> {
             'gen_method',
             isDefault: true,
             onSelect: () {
-              widget.colorPalette.setGenMethod(GenMethod.rand);
+              Provider.of<ColorPaletteModel>(context, listen: false)
+                  .setGenMethod(GenMethod.rand);
             },
           ),
           RadioPreference(
@@ -37,7 +38,8 @@ class SettingsPageState extends State<SettingsPage> {
             GenMethod.pastel.index,
             'gen_method',
             onSelect: () {
-              widget.colorPalette.setGenMethod(GenMethod.pastel);
+              Provider.of<ColorPaletteModel>(context, listen: false)
+                  .setGenMethod(GenMethod.pastel);
             },
           ),
           RadioPreference(
@@ -45,7 +47,8 @@ class SettingsPageState extends State<SettingsPage> {
             GenMethod.median.index,
             'gen_method',
             onSelect: () {
-              widget.colorPalette.setGenMethod(GenMethod.median);
+              Provider.of<ColorPaletteModel>(context, listen: false)
+                  .setGenMethod(GenMethod.median);
             },
           ),
         ],

@@ -1,9 +1,10 @@
 import 'package:color_palette/models/swatch_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum GenMethod { rand, pastel, median }
 
-class ColorPaletteModel {
+class ColorPaletteModel extends ChangeNotifier{
   List<SwatchModel> colors = List<SwatchModel>();
   GenMethod _genMethod;
   GenMethod get genMethod => _genMethod;
@@ -70,5 +71,7 @@ class ColorPaletteModel {
     }).forEach((element) {
       element?.getRandomColor(mix: mix);
     });
+
+    notifyListeners();
   }
 }
