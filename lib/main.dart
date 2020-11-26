@@ -14,7 +14,7 @@ void main() async {
 
   runApp(ChangeNotifierProvider(
       create: (context) =>
-          ColorPaletteModel(5, PreferenceManager.getGenMethod()),
+          ColorPaletteModel(PreferenceManager.getNumColors(), PreferenceManager.getGenMethod()),
       child: MyApp()));
 }
 

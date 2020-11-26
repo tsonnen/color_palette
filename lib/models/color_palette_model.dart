@@ -22,6 +22,17 @@ class ColorPaletteModel extends ChangeNotifier{
     generateColors();
   }
 
+  void setNumColors(int numColors) {
+    colors.clear();
+
+     for (var i = 0; i < numColors; ++i) {
+      colors.add(SwatchModel());
+    }
+
+    generateColors();
+  }
+
+
   Color getPaletteMedian() {
     var totalRed = 0;
     var totalBlue = 0;

@@ -1,5 +1,6 @@
 import 'package:color_palette/services/preference_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:preferences/preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -52,6 +53,26 @@ class SettingsPageState extends State<SettingsPage> {
                   .setGenMethod(GenMethod.median);
             },
           ),
+          PreferenceTitle('Number Colors'),
+          FlatButton(
+              onPressed: () {
+                showDialog<int>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new NumberPickerDialog.integer(
+                        minValue: 1,
+                        maxValue: 10,
+                        initialIntegerValue: PreferenceManager.getNumColors(),
+                      );
+                    }).then((value) {
+                  setState(() {
+                    PreferenceManager.setNumColors(value);
+                    Provider.of<ColorPaletteModel>(context, listen: false)
+                        .setNumColors(value);
+                  });
+                });
+              },
+              child: Text("${PreferenceManager.getNumColors()}")),
         ],
       ),
     );
