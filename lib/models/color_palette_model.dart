@@ -1,12 +1,14 @@
-import 'package:color_palette/models/swatch_model.dart';
 import 'package:flutter/material.dart';
+import 'swatch_model.dart';
 
 enum GenMethod { rand, pastel, median }
 
-class ColorPaletteModel extends ChangeNotifier{
+class ColorPaletteModel extends ChangeNotifier {
   List<SwatchModel> colors = <SwatchModel>[];
   GenMethod _genMethod;
   GenMethod get genMethod => _genMethod;
+  String _name;
+  String get name => _name;
 
   ColorPaletteModel(length, this._genMethod) {
     for (var i = 0; i < length; ++i) {
@@ -25,13 +27,16 @@ class ColorPaletteModel extends ChangeNotifier{
   void setNumColors(int numColors) {
     colors.clear();
 
-     for (var i = 0; i < numColors; ++i) {
+    for (var i = 0; i < numColors; ++i) {
       colors.add(SwatchModel());
     }
 
     generateColors();
   }
 
+  void setName(name) {
+    this._name = name;
+  }
 
   Color getPaletteMedian() {
     var totalRed = 0;

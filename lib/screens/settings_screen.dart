@@ -66,9 +66,11 @@ class SettingsPageState extends State<SettingsPage> {
                       );
                     }).then((value) {
                   setState(() {
-                    PreferenceManager.setNumColors(value);
-                    Provider.of<ColorPaletteModel>(context, listen: false)
-                        .setNumColors(value);
+                    if (value != null) {
+                      PreferenceManager.setNumColors(value);
+                      Provider.of<ColorPaletteModel>(context, listen: false)
+                          .setNumColors(value);
+                    }
                   });
                 });
               },
