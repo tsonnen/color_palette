@@ -1,14 +1,16 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preference_service.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'models/color_palette_model.dart';
-import 'models/listenable_list.dart';
+import 'models/listenable_map.dart';
 import 'services/preference_manager.dart';
 import 'screens/color_palette_screeen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  var appDir = await getApplicationDocumentsDirectory();
   await PrefService.init(prefix: PreferenceManager.prefix);
 
   await PreferenceManager.getPreferences();
@@ -18,8 +20,9 @@ void main() async {
       create: (context) => ColorPaletteModel(
           PreferenceManager.getNumColors(), PreferenceManager.getGenMethod()),
     ),
-    ChangeNotifierProvider<ListenableList<String, ColorPaletteModel>>(
-      create: (context) => ListenableList<String, ColorPaletteModel>(),
+    ChangeNotifierProvider<ListenableMap>(
+      create: (context) =>
+          ListenableMap.fromFile('${appDir.path}/colors.json'),
     ),
   ], child: MyApp()));
 }

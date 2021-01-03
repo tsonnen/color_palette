@@ -1,6 +1,5 @@
 import 'package:color_palette/models/color_palette_model.dart';
-import 'package:color_palette/models/listenable_list.dart';
-import 'package:color_palette/widgets/app_drawer.dart';
+import 'package:color_palette/models/listenable_map.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +16,8 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ListenableList colorPaletteList =
-        Provider.of<ListenableList<String, ColorPaletteModel>>(context);
+    ListenableMap colorPaletteList =
+        Provider.of<ListenableMap>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text('Saved Palettes'),

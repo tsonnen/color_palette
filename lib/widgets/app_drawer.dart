@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import 'dialogs.dart';
 import '../models/color_palette_model.dart';
-import '../models/listenable_list.dart';
+import '../models/listenable_map.dart';
 import '../screens/settings_screen.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -22,7 +22,7 @@ class AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     var colorPaletteList =
-        Provider.of<ListenableList<String, ColorPaletteModel>>(context);
+        Provider.of<ListenableMap>(context);
     var colorPaletteModel = Provider.of<ColorPaletteModel>(context);
     return Drawer(
       child: ListView(
