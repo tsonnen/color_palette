@@ -1,14 +1,16 @@
+import 'package:color_palette/widgets/color_chip.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/color_palette_model.dart';
 
-enum PrefTypes{
-  GenMethod,
-  NumColors
-}
+enum PrefTypes { GenMethod, NumColors, ColorText }
 
 class PreferenceManager {
-  static final prefKeys = {PrefTypes.GenMethod:'gen_method', PrefTypes.NumColors:'num_colors'};
+  static final prefKeys = {
+    PrefTypes.GenMethod: 'gen_method',
+    PrefTypes.NumColors: 'num_colors',
+    PrefTypes.ColorText: 'color_text'
+  };
   static final prefix = 'pref_';
   static SharedPreferences prefs;
 
@@ -22,6 +24,14 @@ class PreferenceManager {
       return GenMethod.values[genMethod ?? 0];
     }
     return GenMethod.rand;
+  }
+
+  static ColorText getColorText() {
+    if (prefs != null) {
+      var colorText = prefs.getInt(prefix + prefKeys[PrefTypes.ColorText]);
+      return ColorText.values[colorText ?? 0];
+    }
+    return ColorText.hex;
   }
 
   static int getNumColors() {

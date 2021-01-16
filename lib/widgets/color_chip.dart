@@ -1,8 +1,11 @@
 import 'package:color_palette/models/swatch_model.dart';
+import 'package:color_palette/services/preference_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ColorChip extends StatefulWidget{
+enum ColorText { hex, rgb }
+
+class ColorChip extends StatefulWidget {
   final SwatchModel swatchModel;
 
   const ColorChip(this.swatchModel);
@@ -11,8 +14,7 @@ class ColorChip extends StatefulWidget{
   ColorChipState createState() => ColorChipState();
 }
 
-class ColorChipState extends State<ColorChip>{
-
+class ColorChipState extends State<ColorChip> {
   @override
   Widget build(BuildContext context) {
     var swatchModel = widget.swatchModel;
@@ -34,7 +36,7 @@ class ColorChipState extends State<ColorChip>{
           ),
           Container(
             child: Text(
-              swatchModel.color.toString(),
+              getText(swatchModel.color),
               style: TextStyle(color: textColor),
               textAlign: TextAlign.center,
             ),
@@ -42,5 +44,14 @@ class ColorChipState extends State<ColorChip>{
         ]));
   }
 
-
+  String getText(Color color) {
+    switch (PreferenceManager.getColorText()) {
+      case ColorText.rgb:
+        return "(${color.red},${color.green}, ${color.blue})";
+      case ColorText.hex:
+        return "#${color.value.toRadixString(16)}";
+      default:
+        return "ERROR-PLEASE REPORT";
+    }
+  }
 }

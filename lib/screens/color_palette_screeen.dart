@@ -39,7 +39,7 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
               .generateColors();
         },
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: Icon(Icons.refresh),
       ),
     );
   }

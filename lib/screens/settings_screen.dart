@@ -1,4 +1,5 @@
 import 'package:color_palette/services/preference_manager.dart';
+import 'package:color_palette/widgets/color_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:preferences/preferences.dart';
@@ -55,26 +56,47 @@ class SettingsPageState extends State<SettingsPage> {
           ),
           PreferenceTitle('Number Colors'),
           FlatButton(
-              onPressed: () {
-                showDialog<int>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return new NumberPickerDialog.integer(
-                        minValue: 1,
-                        maxValue: 10,
-                        initialIntegerValue: PreferenceManager.getNumColors(),
-                      );
-                    }).then((value) {
-                  setState(() {
-                    if (value != null) {
-                      PreferenceManager.setNumColors(value);
-                      Provider.of<ColorPaletteModel>(context, listen: false)
-                          .setNumColors(value);
-                    }
-                  });
+            onPressed: () {
+              showDialog<int>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return new NumberPickerDialog.integer(
+                      minValue: 1,
+                      maxValue: 10,
+                      initialIntegerValue: PreferenceManager.getNumColors(),
+                    );
+                  }).then((value) {
+                setState(() {
+                  if (value != null) {
+                    PreferenceManager.setNumColors(value);
+                    Provider.of<ColorPaletteModel>(context, listen: false)
+                        .setNumColors(value);
+                  }
                 });
-              },
-              child: Text("${PreferenceManager.getNumColors()}")),
+              });
+            },
+            child: Text("${PreferenceManager.getNumColors()}"),
+          ),
+          PreferenceTitle("Color Display"),
+          RadioPreference(
+            'Hexadecimal',
+            ColorText.hex.index,
+            PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
+            isDefault: true,
+            onSelect: () {
+              Provider.of<ColorPaletteModel>(context, listen: false)
+                  .forceUpdate();
+            },
+          ),
+          RadioPreference(
+            'RGB',
+            ColorText.rgb.index,
+            PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
+            onSelect: () {
+              Provider.of<ColorPaletteModel>(context, listen: false)
+                  .forceUpdate();
+            },
+          ),
         ],
       ),
     );
