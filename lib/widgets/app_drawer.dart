@@ -21,8 +21,7 @@ class AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    var colorPaletteList =
-        Provider.of<ListenableMap>(context);
+    var colorPaletteList = Provider.of<ListenableMap>(context);
     var colorPaletteModel = Provider.of<ColorPaletteModel>(context);
     return Drawer(
       child: ListView(
@@ -55,7 +54,7 @@ class AppDrawerState extends State<AppDrawer> {
                     }).then((value) {
                   if (value != null) {
                     colorPaletteModel.setName(value);
-                    colorPaletteList[Uuid().v4()] = colorPaletteModel;
+                    colorPaletteList[Uuid().v4()] = colorPaletteModel.clone();
                   }
                 });
               }),

@@ -55,7 +55,6 @@ class ListenableMap extends MapMixin<String, ColorPaletteModel>
   }
 
   void writeData() {
-    var tmpJson = json.encode(m);
     File(fileName).writeAsStringSync(json.encode(m));
   }
 }

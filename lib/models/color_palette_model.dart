@@ -71,6 +71,11 @@ class ColorPaletteModel extends ChangeNotifier {
     return Color.fromARGB(255, red, green, blue);
   }
 
+  ColorPaletteModel clone() {
+    var tmp = new ColorPaletteModel.fromJson(this.toJson());
+    return tmp;
+  }
+
   void generateColors() {
     var mix;
     switch (genMethod) {
