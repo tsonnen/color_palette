@@ -16,28 +16,45 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ListenableMap colorPaletteList =
-        Provider.of<ListenableMap>(context);
+    ListenableMap colorPaletteList = Provider.of<ListenableMap>(context);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Saved Palettes'),
-        ),
-        body: Column(
+      appBar: AppBar(
+        title: Text('Saved Palettes'),
+      ),
+      body: Builder(
+        builder: (context) => ListView(
           children: colorPaletteList.keys.map((e) {
             ColorPaletteModel colorPalette = colorPaletteList[e];
-            return Row(
-              children: colorPalette.colors
-                  .map(
-                    (e) => Expanded(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(color: e.color),
-                        child: Text(""),
-                      ),
-                    ),
-                  )
-                  .toList(),
+            return Dismissible(
+              // Show a red background as the item is swiped away.
+              background: Container(color: Colors.red),
+              key: Key(e.hashCode.toString()),
+              onDismissed: (direction) {
+                setState(() {
+                  colorPaletteList.remove(e);
+                });
+
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text("${colorPalette.name} dismissed")));
+              },
+              child: Container(
+                child: Row(
+                  children: colorPalette.colors
+                      .map(
+                        (e) => Expanded(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(color: e.color),
+                            child: Text(""),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             );
           }).toList(),
-        ));
+        ),
+      ),
+    );
   }
 }

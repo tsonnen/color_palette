@@ -102,13 +102,17 @@ class ColorPaletteModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, dynamic> toJson() =>
-      {'genMethod': genMethod.index, 'colors': jsonEncode(colors)};
+  Map<String, dynamic> toJson() => {
+        'genMethod': genMethod.index,
+        'colors': jsonEncode(colors),
+        'name': name
+      };
 
   ColorPaletteModel.fromJson(Map<String, dynamic> json) {
     this._genMethod = GenMethod.values[json['genMethod']];
     this.colors = (jsonDecode(json['colors']) as List<dynamic>)
         .map((e) => SwatchModel.fromJson(e))
         .toList();
+    this._name = json['name'];
   }
 }
