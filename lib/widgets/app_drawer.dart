@@ -46,17 +46,8 @@ class AppDrawerState extends State<AppDrawer> {
               title: Text('Save Palette'),
               onTap: () {
                 Navigator.of(context).pop();
-
-                showDialog<String>(
-                    context: context,
-                    builder: (context) {
-                      return NameDialog();
-                    }).then((value) {
-                  if (value != null) {
-                    colorPaletteModel.setName(value);
-                    colorPaletteList[Uuid().v4()] = colorPaletteModel.clone();
-                  }
-                });
+                colorPaletteModel.setName("nope");
+                colorPaletteList[Uuid().v4()] = colorPaletteModel.clone();
               }),
           ListTile(
               title: Text('Saved Palette'),

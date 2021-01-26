@@ -27,18 +27,23 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
             ColorPaletteModel colorPalette = colorPaletteList[e];
             return Dismissible(
               // Show a red background as the item is swiped away.
-              background: Container(color: Colors.red),
+              background: Container(
+                  alignment: Alignment.centerLeft,
+                  color: Colors.red,
+                  child: Icon(Icons.delete)),
               key: Key(e.hashCode.toString()),
               onDismissed: (direction) {
                 setState(() {
                   colorPaletteList.remove(e);
                 });
 
-                Scaffold.of(context).showSnackBar(
-                    SnackBar(content: Text("${colorPalette.name} dismissed")));
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("Palette removed")));
               },
               child: Container(
+                height: 50.0,
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: colorPalette.colors
                       .map(
                         (e) => Expanded(
