@@ -1,5 +1,6 @@
 import 'package:color_palette/models/color_palette_model.dart';
 import 'package:color_palette/models/listenable_map.dart';
+import 'package:color_palette/widgets/dismissable_background.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,19 +27,35 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
           children: colorPaletteList.keys.map((e) {
             ColorPaletteModel colorPalette = colorPaletteList[e];
             return Dismissible(
-              // Show a red background as the item is swiped away.
-              background: Container(
-                  alignment: Alignment.centerLeft,
-                  color: Colors.red,
-                  child: Icon(Icons.delete)),
               key: Key(e.hashCode.toString()),
+              background: DismissableBackground(
+                  icon: Icons.delete,
+                  text: "Delete",
+                  backgroundColor: Colors.red,
+                  align: BackgroundType.PRIMARY),
+              secondaryBackground: DismissableBackground(
+                  icon: Icons.share,
+                  text: "Share",
+                  backgroundColor: Colors.blue,
+                  align: BackgroundType.SECONDARY),
               onDismissed: (direction) {
-                setState(() {
-                  colorPaletteList.remove(e);
-                });
+                if (direction == DismissDirection.startToEnd) {
+                  setState(() {
+                    colorPaletteList.remove(e);
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text("Palette removed")));
+                  });
+                }
+              },
+              confirmDismiss: (direction) async {
+                if (direction == DismissDirection.startToEnd) {
+                  return true;
+                } else if (direction == DismissDirection.endToStart) {
+                  
+                  return false;
+                }
 
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text("Palette removed")));
+                return null;
               },
               child: Container(
                 height: 50.0,
