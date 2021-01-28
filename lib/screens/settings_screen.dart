@@ -32,8 +32,10 @@ class SettingsPageState extends State<SettingsPage> {
             PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
             isDefault: true,
             onSelect: () {
-              Provider.of<ColorPaletteModel>(context, listen: false)
-                  .setGenMethod(GenMethod.rand);
+              if (PreferenceManager.getGenMethod() != GenMethod.rand) {
+                Provider.of<ColorPaletteModel>(context, listen: false)
+                    .setGenMethod(GenMethod.rand);
+              }
             },
           ),
           RadioPreference(
@@ -84,8 +86,10 @@ class SettingsPageState extends State<SettingsPage> {
             PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
             isDefault: true,
             onSelect: () {
-              Provider.of<ColorPaletteModel>(context, listen: false)
-                  .forceUpdate();
+              if (PreferenceManager.getColorText() != ColorText.hex) {
+                Provider.of<ColorPaletteModel>(context, listen: false)
+                    .forceUpdate();
+              }
             },
           ),
           RadioPreference(
