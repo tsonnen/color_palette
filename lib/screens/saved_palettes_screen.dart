@@ -1,5 +1,6 @@
 import 'package:color_palette/models/color_palette_model.dart';
 import 'package:color_palette/models/listenable_map.dart';
+import 'package:color_palette/services/share_helper.dart';
 import 'package:color_palette/widgets/dismissable_background.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +52,7 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
                 if (direction == DismissDirection.startToEnd) {
                   return true;
                 } else if (direction == DismissDirection.endToStart) {
-                  
+                  await ShareHelper.sharePalette(colorPalette);
                   return false;
                 }
 
