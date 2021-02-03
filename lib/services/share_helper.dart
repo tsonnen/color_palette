@@ -22,15 +22,21 @@ class ShareHelper {
   }
 
   static Image paletteToImage(ColorPaletteModel colorPaletteModel) {
-    var image = Image(100, colorPaletteModel.colors.length * 50);
-    int thickness = 50;
+    int chipHeight = 50;
+    int width = 100;
+    int height = chipHeight * colorPaletteModel.colors.length;
+    var image = Image(width, height);
 
     colorPaletteModel.colors.forEach((m) {
-      int y = colorPaletteModel.colors.indexOf(m) * thickness +
-          (thickness / 2).floor();
-      drawLine(image, 0, y, 100, y,
-          getColor(m.color.red, m.color.green, m.color.blue),
-          thickness: 50);
+      int y = colorPaletteModel.colors.indexOf(m) * chipHeight;
+      fillRect(
+        image,
+        0,
+        y,
+        width,
+        y + chipHeight,
+        getColor(m.color.red, m.color.green, m.color.blue),
+      );
     });
 
     return image;
