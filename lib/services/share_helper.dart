@@ -23,9 +23,11 @@ class ShareHelper {
 
   static Image paletteToImage(ColorPaletteModel colorPaletteModel) {
     var image = Image(100, colorPaletteModel.colors.length * 50);
+    int thickness = 50;
 
     colorPaletteModel.colors.forEach((m) {
-      var y = colorPaletteModel.colors.indexOf(m) * 50;
+      int y = colorPaletteModel.colors.indexOf(m) * thickness +
+          (thickness / 2).floor();
       drawLine(image, 0, y, 100, y,
           getColor(m.color.red, m.color.green, m.color.blue),
           thickness: 50);
