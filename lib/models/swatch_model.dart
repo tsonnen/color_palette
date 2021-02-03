@@ -31,4 +31,12 @@ class SwatchModel {
     this.lock = json['lock'];
     this._color = Color(json['color']);
   }
+
+  @override
+  bool operator ==(Object rhs) {
+    return rhs is SwatchModel && lock == rhs.lock && color == rhs.color;
+  }
+
+  @override
+  int get hashCode => lock.hashCode ^ color.hashCode;
 }

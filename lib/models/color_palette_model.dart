@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'swatch_model.dart';
 
@@ -9,8 +10,6 @@ class ColorPaletteModel extends ChangeNotifier {
   List<SwatchModel> colors = <SwatchModel>[];
   GenMethod _genMethod;
   GenMethod get genMethod => _genMethod;
-  String _name;
-  String get name => _name;
 
   ColorPaletteModel(length, this._genMethod) {
     for (var i = 0; i < length; ++i) {
@@ -34,10 +33,6 @@ class ColorPaletteModel extends ChangeNotifier {
     }
 
     generateColors();
-  }
-
-  void setName(name) {
-    this._name = name;
   }
 
   Color getPaletteMedian() {
@@ -102,17 +97,23 @@ class ColorPaletteModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, dynamic> toJson() => {
-        'genMethod': genMethod.index,
-        'colors': jsonEncode(colors),
-        'name': name
-      };
+  Map<String, dynamic> toJson() =>
+      {'genMethod': genMethod.index, 'colors': jsonEncode(colors)};
 
   ColorPaletteModel.fromJson(Map<String, dynamic> json) {
     this._genMethod = GenMethod.values[json['genMethod']];
     this.colors = (jsonDecode(json['colors']) as List<dynamic>)
         .map((e) => SwatchModel.fromJson(e))
         .toList();
-    this._name = json['name'];
   }
+
+  @override
+  bool operator ==(Object rhs) {
+    return rhs is ColorPaletteModel &&
+        listEquals(colors, rhs.colors) &&
+        genMethod == rhs.genMethod;
+  }
+
+  @override
+  int get hashCode => colors.hashCode ^ genMethod.hashCode;
 }

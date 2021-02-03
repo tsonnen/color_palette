@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import 'dialogs.dart';
 import '../models/color_palette_model.dart';
 import '../models/listenable_map.dart';
 import '../screens/settings_screen.dart';
@@ -46,7 +45,6 @@ class AppDrawerState extends State<AppDrawer> {
               title: Text('Save Palette'),
               onTap: () {
                 Navigator.of(context).pop();
-                colorPaletteModel.setName("nope");
                 colorPaletteList[Uuid().v4()] = colorPaletteModel.clone();
               }),
           ListTile(
