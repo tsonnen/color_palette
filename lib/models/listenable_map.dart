@@ -51,6 +51,8 @@ class ListenableMap extends MapMixin<String, ColorPaletteModel>
   ColorPaletteModel remove(Object key) {
     var val = m.remove(key);
     notifyListeners();
+
+    writeData();
     return val;
   }
 
