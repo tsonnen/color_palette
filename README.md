@@ -1,16 +1,14 @@
-# color_palette
+[](https://raw.githubusercontent.com/tsonnen/color_palette/main/resources/featureGraphic.png)
 
-A new Flutter project.
+# Color Palette
 
-## Getting Started
+An app that will generate a random color palette to help with inspiration. Users can share their palettes.
 
-This project is a starting point for a Flutter application.
+# Download
+This app has not yet been published, but will be soon.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Support and Contributing
+Any and all code contributions are greatly appreciated! If you have 
+any recommendations, or feature requests, please do not hesitate to 
+send me an [email](mailto:tsonnenapps@gmail.com) or to create an issue 
+in the repo.
