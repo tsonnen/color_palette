@@ -1,4 +1,4 @@
-[](https://raw.githubusercontent.com/tsonnen/color_palette/main/resources/featureGraphic.png)
+![](https://github.com/tsonnen/color_palette/blob/main/resources/featureGraphic.png)
 
 # Color Palette
 
