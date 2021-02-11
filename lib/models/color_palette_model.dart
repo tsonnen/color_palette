@@ -20,9 +20,11 @@ class ColorPaletteModel extends ChangeNotifier {
   }
 
   void setGenMethod(GenMethod newMethod) {
-    _genMethod = newMethod;
+    if (newMethod != _genMethod) {
+      _genMethod = newMethod;
 
-    generateColors();
+      generateColors();
+    }
   }
 
   void setNumColors(int numColors) {
