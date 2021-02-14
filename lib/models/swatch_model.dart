@@ -8,7 +8,7 @@ class SwatchModel {
   Color get color => _color;
 
   SwatchModel({this.lock = false, int colorVal = 0}) {
-    this._color = Color(colorVal);
+    _color = Color(colorVal);
   }
 
   void getRandomColor({Color mix}) {
@@ -28,8 +28,8 @@ class SwatchModel {
   Map<String, dynamic> toJson() => {'lock': lock, 'color': color.value};
 
   SwatchModel.fromJson(Map<String, dynamic> json) {
-    this.lock = json['lock'];
-    this._color = Color(json['color']);
+    lock = json['lock'];
+    _color = Color(json['color']);
   }
 
   @override

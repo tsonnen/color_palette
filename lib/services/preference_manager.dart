@@ -42,7 +42,7 @@ class PreferenceManager {
     return 5;
   }
 
-  static setNumColors(int value) {
+  static void setNumColors(int value) {
     if (prefs != null) {
       prefs.setInt(prefix + prefKeys[PrefTypes.NumColors], value);
     }

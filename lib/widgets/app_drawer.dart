@@ -1,10 +1,6 @@
 import 'package:color_palette/screens/saved_palettes_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
-import '../models/color_palette_model.dart';
-import '../models/listenable_map.dart';
 import '../screens/settings_screen.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -20,8 +16,6 @@ class AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    var colorPaletteList = Provider.of<ListenableMap>(context);
-    var colorPaletteModel = Provider.of<ColorPaletteModel>(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -39,13 +33,6 @@ class AppDrawerState extends State<AppDrawer> {
                     builder: (context) => SettingsPage(),
                   ),
                 );
-              }),
-          ListTile(
-              leading: Icon(Icons.save),
-              title: Text('Save Palette'),
-              onTap: () {
-                Navigator.of(context).pop();
-                colorPaletteList[Uuid().v4()] = colorPaletteModel.clone();
               }),
           ListTile(
               title: Text('Saved Palette'),

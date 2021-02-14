@@ -69,7 +69,7 @@ class ColorPaletteModel extends ChangeNotifier {
   }
 
   ColorPaletteModel clone() {
-    var tmp = new ColorPaletteModel.fromJson(this.toJson());
+    var tmp = ColorPaletteModel.fromJson(toJson());
     return tmp;
   }
 
@@ -103,8 +103,8 @@ class ColorPaletteModel extends ChangeNotifier {
       {'genMethod': genMethod.index, 'colors': jsonEncode(colors)};
 
   ColorPaletteModel.fromJson(Map<String, dynamic> json) {
-    this._genMethod = GenMethod.values[json['genMethod']];
-    this.colors = (jsonDecode(json['colors']) as List<dynamic>)
+    _genMethod = GenMethod.values[json['genMethod']];
+    colors = (jsonDecode(json['colors']) as List<dynamic>)
         .map((e) => SwatchModel.fromJson(e))
         .toList();
   }

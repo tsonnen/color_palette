@@ -61,7 +61,7 @@ class SettingsPageState extends State<SettingsPage> {
               showDialog<int>(
                   context: context,
                   builder: (BuildContext context) {
-                    return new NumberPickerDialog.integer(
+                    return NumberPickerDialog.integer(
                       minValue: 1,
                       maxValue: 10,
                       initialIntegerValue: PreferenceManager.getNumColors(),
@@ -76,9 +76,9 @@ class SettingsPageState extends State<SettingsPage> {
                 });
               });
             },
-            child: Text("${PreferenceManager.getNumColors()}"),
+            child: Text('${PreferenceManager.getNumColors()}'),
           ),
-          PreferenceTitle("Color Display"),
+          PreferenceTitle('Color Display'),
           RadioPreference(
             'Hexadecimal',
             ColorText.hex.index,

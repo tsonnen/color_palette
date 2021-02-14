@@ -11,24 +11,24 @@ class ShareHelper {
     final Uint8List list = encodePng(image);
 
     final tempDir = await getTemporaryDirectory();
-    final file = await new File('${tempDir.path}/image.jpg').create();
+    final file = await File('${tempDir.path}/image.jpg').create();
     file.writeAsBytesSync(list);
 
     await Share.shareFiles(
       ['${tempDir.path}/image.jpg'],
-      subject: "share it!",
-      text: "share flutter",
+      subject: 'share it!',
+      text: 'share flutter',
     );
   }
 
   static Image paletteToImage(ColorPaletteModel colorPaletteModel) {
-    int chipHeight = 50;
-    int width = 100;
-    int height = chipHeight * colorPaletteModel.colors.length;
+    var chipHeight = 50;
+    var width = 100;
+    var height = chipHeight * colorPaletteModel.colors.length;
     var image = Image(width, height);
 
     colorPaletteModel.colors.forEach((m) {
-      int y = colorPaletteModel.colors.indexOf(m) * chipHeight;
+      var y = colorPaletteModel.colors.indexOf(m) * chipHeight;
       fillRect(
         image,
         0,

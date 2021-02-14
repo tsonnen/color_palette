@@ -1,5 +1,7 @@
+import 'package:color_palette/models/listenable_map.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/color_palette_model.dart';
 import '../widgets/app_drawer.dart';
@@ -20,10 +22,17 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var colorPaletteList = Provider.of<ListenableMap>(context);
+    var colorPaletteModel = Provider.of<ColorPaletteModel>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Color Palette'),
-      ),
+      appBar: AppBar(title: Text('Color Palette'), actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.save),
+          onPressed: () {
+            colorPaletteList[Uuid().v4()] = colorPaletteModel.clone();
+          },
+        ),
+      ]),
       drawer: AppDrawer(),
       body: Consumer<ColorPaletteModel>(
           builder: (context, colorPaletteModel, child) {
@@ -38,7 +47,7 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
           Provider.of<ColorPaletteModel>(context, listen: false)
               .generateColors();
         },
-        tooltip: 'Increment',
+        tooltip: 'Refresh',
         child: Icon(Icons.refresh),
       ),
     );

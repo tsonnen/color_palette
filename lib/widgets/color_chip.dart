@@ -47,13 +47,13 @@ class ColorChipState extends State<ColorChip> {
   String getText(Color color) {
     switch (PreferenceManager.getColorText()) {
       case ColorText.rgb:
-        return "(${color.red},${color.green}, ${color.blue})";
+        return '(${color.red},${color.green},${color.blue})';
       case ColorText.hex:
         // remove the alpha value
         var tmp = color.value & 16777215;
         return '#${tmp.toRadixString(16)}';
       default:
-        return "ERROR-PLEASE REPORT";
+        return 'ERROR-PLEASE REPORT';
     }
   }
 }

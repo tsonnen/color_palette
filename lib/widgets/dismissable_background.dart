@@ -34,7 +34,7 @@ class DismissableBackground extends StatelessWidget {
               color: textColor,
             ),
             Text(
-              " $text",
+              ' $text',
               style: TextStyle(
                 color: textColor,
                 fontWeight: FontWeight.w700,

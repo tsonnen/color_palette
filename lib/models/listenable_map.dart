@@ -14,7 +14,7 @@ class ListenableMap extends MapMixin<String, ColorPaletteModel>
   ListenableMap.fromFile(this.fileName) {
     if (File(fileName).existsSync()) {
       // File(fileName).deleteSync();
-      String data = File(fileName).readAsStringSync();
+      var data = File(fileName).readAsStringSync();
       Map tmp = jsonDecode(data);
 
       tmp.forEach((key, value) {
