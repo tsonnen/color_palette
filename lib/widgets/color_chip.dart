@@ -49,7 +49,9 @@ class ColorChipState extends State<ColorChip> {
       case ColorText.rgb:
         return "(${color.red},${color.green}, ${color.blue})";
       case ColorText.hex:
-        return "#${color.value.toRadixString(16)}";
+        // remove the alpha value
+        var tmp = color.value & 16777215;
+        return '#${tmp.toRadixString(16)}';
       default:
         return "ERROR-PLEASE REPORT";
     }
