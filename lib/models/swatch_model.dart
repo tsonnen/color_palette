@@ -39,4 +39,8 @@ class SwatchModel {
 
   @override
   int get hashCode => lock.hashCode ^ color.hashCode;
+
+  void setColor(value) {
+    _color = value;
+  }
 }

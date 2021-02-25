@@ -36,6 +36,7 @@ dependencies:
   path_provider: ^1.6.24
   share: ^0.6.5+4
   image: ^2.1.19
+  flutter_colorpicker: ^0.3.5
 
 dev_dependencies:
   flutter_test:
