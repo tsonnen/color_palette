@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:color_palette/services/preference_manager.dart';
 import 'package:color_palette/widgets/color_chip.dart';
+import 'package:color_palette/widgets/preference_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:preferences/preferences.dart';
@@ -17,6 +20,16 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsPageState extends State<SettingsPage> {
+  var shareWidthController = TextEditingController();
+  var shareHeightController = TextEditingController();
+
+  @override
+  void initState() {
+    shareHeightController.text = PreferenceManager.getShareHeight().toString();
+    shareWidthController.text = PreferenceManager.getShareWidth().toString();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +111,49 @@ class SettingsPageState extends State<SettingsPage> {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .forceUpdate();
             },
+          ),
+          PreferenceTitle('Share Settings'),
+          CheckboxPreference(
+            'Show Share Options Dialog',
+            PreferenceManager.prefKeys[PrefTypes.ShowShareOptionsDialog]
+                .toString(),
+          ),
+          SwitchPreference(
+            'Use Screen Size',
+            PreferenceManager.prefKeys[PrefTypes.ShareUseScreenSize].toString(),
+            defaultVal: PreferenceManager.getUseScreenSize(),
+            onChange: () {
+              setState(() {
+                if (PreferenceManager.getUseScreenSize()) {
+                  PreferenceManager.setShareHeight(
+                      window.physicalSize.height.toInt());
+                  shareHeightController.text =
+                      PreferenceManager.getShareHeight().toString();
+                  PreferenceManager.setShareWidth(
+                      window.physicalSize.width.toInt());
+                  shareWidthController.text =
+                      PreferenceManager.getShareWidth().toString();
+                }
+              });
+            },
+          ),
+          Row(
+            children: [
+              PreferenceNumericField(
+                'Width (px)',
+                PreferenceManager.prefKeys[PrefTypes.ShareWidth].toString(),
+                enabled: !PreferenceManager.getUseScreenSize(),
+                defaultVal: PreferenceManager.getShareWidth().toString(),
+                controller: shareWidthController,
+              ),
+              PreferenceNumericField(
+                'Height (px)',
+                PreferenceManager.prefKeys[PrefTypes.ShareHeight].toString(),
+                enabled: !PreferenceManager.getUseScreenSize(),
+                defaultVal: PreferenceManager.getShareHeight().toString(),
+                controller: shareHeightController,
+              )
+            ],
           ),
         ],
       ),

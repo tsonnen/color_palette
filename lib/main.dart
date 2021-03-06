@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preference_service.dart';
@@ -14,6 +16,10 @@ void main() async {
   await PrefService.init(prefix: PreferenceManager.prefix);
 
   await PreferenceManager.getPreferences();
+  if (PreferenceManager.getUseScreenSize()) {
+    PreferenceManager.setShareHeight(window.physicalSize.height.toInt());
+    PreferenceManager.setShareWidth(window.physicalSize.width.toInt());
+  }
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<ColorPaletteModel>(
@@ -21,8 +27,7 @@ void main() async {
           PreferenceManager.getNumColors(), PreferenceManager.getGenMethod()),
     ),
     ChangeNotifierProvider<ListenableMap>(
-      create: (context) =>
-          ListenableMap.fromFile('${appDir.path}/colors.json'),
+      create: (context) => ListenableMap.fromFile('${appDir.path}/colors.json'),
     ),
   ], child: MyApp()));
 }

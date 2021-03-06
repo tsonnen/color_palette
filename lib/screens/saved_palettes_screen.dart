@@ -1,5 +1,7 @@
 import 'package:color_palette/models/listenable_map.dart';
+import 'package:color_palette/services/preference_manager.dart';
 import 'package:color_palette/services/share_helper.dart';
+import 'package:color_palette/widgets/dialogs.dart';
 import 'package:color_palette/widgets/dismissable_background.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +53,18 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
                 if (direction == DismissDirection.startToEnd) {
                   return true;
                 } else if (direction == DismissDirection.endToStart) {
-                  await ShareHelper.sharePalette(colorPalette);
+                  if (PreferenceManager.getShowShareOptionsDialog()) {
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ShareOptionsDialog(colorPalette);
+                        });
+                  } else {
+                    await ShareHelper.sharePalette(
+                        colorPalette,
+                        Size(PreferenceManager.getShareWidth().toDouble(),
+                            PreferenceManager.getShareHeight().toDouble()));
+                  }
                   return false;
                 }
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:color_palette/models/color_palette_model.dart';
 import 'package:image/image.dart';
@@ -21,10 +22,10 @@ class ShareHelper {
     );
   }
 
-  static Image paletteToImage(ColorPaletteModel colorPaletteModel) {
-    var chipHeight = 50;
-    var width = 100;
-    var height = chipHeight * colorPaletteModel.colors.length;
+  static Image paletteToImage(ColorPaletteModel colorPaletteModel, Size size) {
+    var width = size.width.toInt();
+    var height = size.height.toInt();
+    var chipHeight = (height / colorPaletteModel.colors.length).floor();
     var image = Image(width, height);
 
     colorPaletteModel.colors.forEach((m) {
@@ -42,8 +43,9 @@ class ShareHelper {
     return image;
   }
 
-  static Future<void> sharePalette(ColorPaletteModel colorPaletteModel) async {
-    var image = paletteToImage(colorPaletteModel);
+  static Future<void> sharePalette(
+      ColorPaletteModel colorPaletteModel, Size size) async {
+    var image = paletteToImage(colorPaletteModel, size);
     await shareImage(image);
   }
 }
