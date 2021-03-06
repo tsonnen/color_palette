@@ -169,6 +169,12 @@ class ShareOptionsDialogState extends State<ShareOptionsDialog> {
       ),
       actions: [
         FlatButton(
+          child: Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        FlatButton(
           child: Text('Share!'),
           onPressed: () async {
             await ShareHelper.sharePalette(
