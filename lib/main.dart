@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:preferences/preference_service.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:pref/pref.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:path_provider/path_provider.dart';
 
 import 'models/color_palette_model.dart';
@@ -13,7 +15,7 @@ import 'screens/color_palette_screeen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDir = await getApplicationDocumentsDirectory();
-  await PrefService.init(prefix: PreferenceManager.prefix);
+  var service = await PrefServiceShared.init(prefix: PreferenceManager.prefix);
 
   await PreferenceManager.getPreferences();
   if (PreferenceManager.getUseScreenSize()) {
@@ -21,15 +23,19 @@ void main() async {
     PreferenceManager.setShareWidth(window.physicalSize.width.toInt());
   }
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<ColorPaletteModel>(
-      create: (context) => ColorPaletteModel(
-          PreferenceManager.getNumColors(), PreferenceManager.getGenMethod()),
-    ),
-    ChangeNotifierProvider<ListenableMap>(
-      create: (context) => ListenableMap.fromFile('${appDir.path}/colors.json'),
-    ),
-  ], child: MyApp()));
+  runApp(PrefService(
+      service: service,
+      child: MultiProvider(providers: [
+        ChangeNotifierProvider<ColorPaletteModel>(
+          create: (context) => ColorPaletteModel(
+              PreferenceManager.getNumColors(),
+              PreferenceManager.getGenMethod()),
+        ),
+        ChangeNotifierProvider<ListenableMap>(
+          create: (context) =>
+              ListenableMap.fromFile('${appDir.path}/colors.json'),
+        ),
+      ], child: MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +43,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '',
       theme: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.blue,

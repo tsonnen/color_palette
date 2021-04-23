@@ -5,7 +5,7 @@ import 'package:color_palette/models/color_palette_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Color Palette Model Test', () {
+  group('Color Palette Model JSON Test', () {
     setUp(() {});
 
     test('JSON end to end test', () async {

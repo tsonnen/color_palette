@@ -13,10 +13,10 @@ class DismissableBackground extends StatelessWidget {
   final BackgroundType align;
 
   DismissableBackground(
-      {@required this.icon,
-      @required this.text,
-      @required this.backgroundColor,
-      @required this.align,
+      {required this.icon,
+      required this.text,
+      required this.backgroundColor,
+      required this.align,
       this.textColor = Colors.white});
 
   @override
@@ -24,6 +24,9 @@ class DismissableBackground extends StatelessWidget {
     return Container(
       color: backgroundColor,
       child: Align(
+        alignment: align == BackgroundType.SECONDARY
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
         child: Row(
           mainAxisAlignment: align == BackgroundType.SECONDARY
               ? MainAxisAlignment.end
@@ -48,9 +51,6 @@ class DismissableBackground extends StatelessWidget {
             ),
           ],
         ),
-        alignment: align == BackgroundType.SECONDARY
-            ? Alignment.centerRight
-            : Alignment.centerLeft,
       ),
     );
   }

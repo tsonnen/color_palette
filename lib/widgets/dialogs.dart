@@ -20,17 +20,17 @@ class NameDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         // usually buttons at the bottom of the dialog
-        FlatButton(
-          child: Text('Cancel'),
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop(null);
           },
+          child: Text('Cancel'),
         ),
-        FlatButton(
-          child: Text('Save'),
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop(nameController.text);
           },
+          child: Text('Save'),
         )
       ],
     );
@@ -38,7 +38,7 @@ class NameDialog extends StatelessWidget {
 }
 
 class ColorDialog extends StatefulWidget {
-  final Color color;
+  final Color? color;
 
   ColorDialog(this.color);
 
@@ -61,6 +61,7 @@ class ColorDialogState extends State<ColorDialog> {
       title: const Text('Pick a color!'),
       content: SingleChildScrollView(
         child: ColorPicker(
+          enableAlpha: false,
           pickerColor: tmpColor,
           onColorChanged: (color) {
             tmpColor = color;
@@ -70,17 +71,17 @@ class ColorDialogState extends State<ColorDialog> {
         ),
       ),
       actions: <Widget>[
-        FlatButton(
-          child: const Text('Cancel'),
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop(widget.color);
           },
+          child: const Text('Cancel'),
         ),
-        FlatButton(
-          child: const Text('Ok'),
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop(tmpColor);
           },
+          child: const Text('Ok'),
         ),
       ],
     );
@@ -96,7 +97,7 @@ class ShareOptionsDialog extends StatefulWidget {
 }
 
 class ShareOptionsDialogState extends State<ShareOptionsDialog> {
-  bool useScreenSize;
+  late bool useScreenSize;
   var shareWidthController = TextEditingController();
   var shareHeightController = TextEditingController();
 
@@ -168,21 +169,21 @@ class ShareOptionsDialogState extends State<ShareOptionsDialog> {
         ),
       ),
       actions: [
-        FlatButton(
-          child: Text('Cancel'),
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
+          child: Text('Cancel'),
         ),
-        FlatButton(
-          child: Text('Share!'),
+        TextButton(
           onPressed: () async {
             await ShareHelper.sharePalette(
                 widget.palette,
-                Size(double.tryParse(shareWidthController.text),
-                    double.tryParse(shareHeightController.text)));
+                Size(double.tryParse(shareWidthController.text)!,
+                    double.tryParse(shareHeightController.text)!));
             Navigator.of(context).pop();
           },
+          child: Text('Share!'),
         ),
       ],
     );

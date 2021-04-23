@@ -9,7 +9,7 @@ import 'package:share/share.dart';
 
 class ShareHelper {
   static Future<void> shareImage(Image image) async {
-    final Uint8List list = encodePng(image);
+    final list = encodePng(image) as Uint8List;
 
     final tempDir = await getTemporaryDirectory();
     final file = await File('${tempDir.path}/image.jpg').create();
@@ -36,7 +36,7 @@ class ShareHelper {
         y,
         width,
         y + chipHeight,
-        getColor(m.color.red, m.color.green, m.color.blue),
+        getColor(m.color!.red, m.color!.green, m.color!.blue),
       );
     });
 

@@ -4,12 +4,12 @@ class LabeledInput extends StatefulWidget {
   final String label;
   final Widget widget;
 
-  LabeledInput({@required this.label, @required this.widget});
+  LabeledInput({required this.label, required this.widget});
 
   LabeledInput.Switch(
-      {@required this.label,
-      @required Function(bool) onChanged,
-      @required bool value})
+      {required this.label,
+      required Function(bool) onChanged,
+      required bool value})
       : widget = Switch(
           value: value,
           onChanged: onChanged,

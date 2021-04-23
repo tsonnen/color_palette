@@ -8,8 +8,8 @@ enum GenMethod { rand, pastel, median }
 
 class ColorPaletteModel extends ChangeNotifier {
   List<SwatchModel> colors = <SwatchModel>[];
-  GenMethod _genMethod;
-  GenMethod get genMethod => _genMethod;
+  GenMethod? _genMethod;
+  GenMethod? get genMethod => _genMethod;
 
   ColorPaletteModel(length, this._genMethod) {
     for (var i = 0; i < length; ++i) {
@@ -37,7 +37,7 @@ class ColorPaletteModel extends ChangeNotifier {
     generateColors();
   }
 
-  Color getPaletteMedian() {
+  Color? getPaletteMedian() {
     var totalRed = 0;
     var totalBlue = 0;
     var totalGreen = 0;
@@ -45,16 +45,16 @@ class ColorPaletteModel extends ChangeNotifier {
     var countedColors = colors.length;
 
     colors.forEach((element) {
-      var elementColor = element?.color;
+      var elementColor = element.color;
 
       if (elementColor == null) {
         --countedColors;
         return;
       }
 
-      totalRed += element.color.red;
-      totalBlue += element.color.blue;
-      totalGreen += element.color.green;
+      totalRed += element.color!.red;
+      totalBlue += element.color!.blue;
+      totalGreen += element.color!.green;
     });
 
     if (countedColors == 0) {
@@ -86,9 +86,9 @@ class ColorPaletteModel extends ChangeNotifier {
         break;
     }
     colors.where((element) {
-      return !(element?.lock ?? false);
+      return !(element.lock ?? false);
     }).forEach((element) {
-      element?.getRandomColor(mix: mix);
+      element.getRandomColor(mix: mix);
     });
 
     notifyListeners();
@@ -100,7 +100,7 @@ class ColorPaletteModel extends ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() =>
-      {'genMethod': genMethod.index, 'colors': jsonEncode(colors)};
+      {'genMethod': genMethod!.index, 'colors': jsonEncode(colors)};
 
   ColorPaletteModel.fromJson(Map<String, dynamic> json) {
     _genMethod = GenMethod.values[json['genMethod']];

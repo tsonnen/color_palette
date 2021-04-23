@@ -3,15 +3,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SwatchModel {
-  bool lock;
-  Color _color;
-  Color get color => _color;
+  bool? lock;
+  Color? _color;
+  Color? get color => _color;
 
   SwatchModel({this.lock = false, int colorVal = 0}) {
     _color = Color(colorVal);
   }
 
-  void getRandomColor({Color mix}) {
+  void getRandomColor({Color? mix}) {
     var red = Random().nextInt(255);
     var green = Random().nextInt(255);
     var blue = Random().nextInt(255);
@@ -25,7 +25,7 @@ class SwatchModel {
     _color = Color.fromARGB(255, red, green, blue);
   }
 
-  Map<String, dynamic> toJson() => {'lock': lock, 'color': color.value};
+  Map<String, dynamic> toJson() => {'lock': lock, 'color': color!.value};
 
   SwatchModel.fromJson(Map<String, dynamic> json) {
     lock = json['lock'];

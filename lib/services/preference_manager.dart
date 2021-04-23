@@ -24,7 +24,7 @@ class PreferenceManager {
     PrefTypes.ShowShareOptionsDialog: 'show_share_options'
   };
   static final prefix = 'pref_';
-  static SharedPreferences prefs;
+  static SharedPreferences? prefs;
 
   static Future<void> getPreferences() async {
     prefs ??= await SharedPreferences.getInstance();
@@ -32,24 +32,24 @@ class PreferenceManager {
 
   static GenMethod getGenMethod() {
     if (prefs != null) {
-      var genMethod = prefs.getInt(prefix + prefKeys[PrefTypes.GenMethod]);
-      return GenMethod.values[genMethod ?? 0];
+      var genMethod = prefs!.getInt(prefix + prefKeys[PrefTypes.GenMethod]!);
+      return GenMethod.values[genMethod!];
     }
     return GenMethod.rand;
   }
 
   static ColorText getColorText() {
     if (prefs != null) {
-      var colorText = prefs.getInt(prefix + prefKeys[PrefTypes.ColorText]);
-      return ColorText.values[colorText ?? 0];
+      var colorText = prefs!.getInt(prefix + prefKeys[PrefTypes.ColorText]!);
+      return ColorText.values[colorText!];
     }
     return ColorText.hex;
   }
 
   static int getNumColors() {
     if (prefs != null) {
-      var numColors = prefs.getInt(prefix + prefKeys[PrefTypes.NumColors]);
-      return numColors ?? 5;
+      var numColors = prefs!.getInt(prefix + prefKeys[PrefTypes.NumColors]!);
+      return numColors!;
     }
     return 5;
   }
@@ -57,8 +57,8 @@ class PreferenceManager {
   static bool getUseScreenSize() {
     if (prefs != null) {
       var useScreenSize =
-          prefs.getBool(prefix + prefKeys[PrefTypes.ShareUseScreenSize]);
-      return useScreenSize ?? true;
+          prefs!.getBool(prefix + prefKeys[PrefTypes.ShareUseScreenSize]!);
+      return useScreenSize!;
     }
     return true;
   }
@@ -66,24 +66,25 @@ class PreferenceManager {
   static int getShareHeight() {
     if (prefs != null) {
       var shareHeight =
-          prefs.getString(prefix + prefKeys[PrefTypes.ShareHeight]);
-      return int.tryParse(shareHeight) ?? 2280;
+          prefs!.getString(prefix + prefKeys[PrefTypes.ShareHeight]!);
+      return int.tryParse(shareHeight!) ?? 2280;
     }
     return 2280;
   }
 
   static int getShareWidth() {
     if (prefs != null) {
-      var shareWidth = prefs.getString(prefix + prefKeys[PrefTypes.ShareWidth]);
-      return int.tryParse(shareWidth) ?? 1080;
+      var shareWidth =
+          prefs!.getString(prefix + prefKeys[PrefTypes.ShareWidth]!);
+      return int.tryParse(shareWidth!) ?? 1080;
     }
     return 1080;
   }
 
   static void setShareHeight(int shareHeight) {
     if (prefs != null) {
-      prefs.setString(
-          prefix + prefKeys[PrefTypes.ShareHeight], shareHeight.toString());
+      prefs!.setString(
+          prefix + prefKeys[PrefTypes.ShareHeight]!, shareHeight.toString());
     } else {
       throw ('Prefs not initialized!');
     }
@@ -91,8 +92,8 @@ class PreferenceManager {
 
   static void setShareWidth(int shareWidth) {
     if (prefs != null) {
-      prefs.setString(
-          prefix + prefKeys[PrefTypes.ShareWidth], shareWidth.toString());
+      prefs!.setString(
+          prefix + prefKeys[PrefTypes.ShareWidth]!, shareWidth.toString());
     } else {
       throw ('Prefs not initialized!');
     }
@@ -100,26 +101,26 @@ class PreferenceManager {
 
   static void setNumColors(int value) {
     if (prefs != null) {
-      prefs.setInt(prefix + prefKeys[PrefTypes.NumColors], value);
+      prefs!.setInt(prefix + prefKeys[PrefTypes.NumColors]!, value);
     } else {
       throw ('Prefs not initialized!');
     }
   }
 
   static dynamic get(String key) {
-    var val = prefs.get(prefix + key);
+    var val = prefs!.get(prefix + key);
     return val;
   }
 
   static void setString(String key, String val) {
-    prefs.setString(prefix + key, val);
+    prefs!.setString(prefix + key, val);
   }
 
   static bool getShowShareOptionsDialog() {
     if (prefs != null) {
       var showShareOptions =
-          prefs.getBool(prefix + prefKeys[PrefTypes.ShowShareOptionsDialog]);
-      return showShareOptions ?? false;
+          prefs!.getBool(prefix + prefKeys[PrefTypes.ShowShareOptionsDialog]!);
+      return showShareOptions!;
     }
     return false;
   }

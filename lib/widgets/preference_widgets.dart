@@ -7,7 +7,7 @@ class PreferenceNumericField extends StatefulWidget {
   final String prefKey;
   final bool enabled;
   final String label;
-  final String defaultVal;
+  final String? defaultVal;
 
   final TextEditingController controller;
 
@@ -23,7 +23,7 @@ class PreferenceNumericFieldState extends State<PreferenceNumericField> {
   @override
   void initState() {
     widget.controller.text =
-        PreferenceManager.get(widget.prefKey)?.toString() ?? widget.defaultVal;
+        PreferenceManager.get(widget.prefKey)?.toString() ?? widget.defaultVal!;
     super.initState();
   }
 

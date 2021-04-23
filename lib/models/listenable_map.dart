@@ -8,13 +8,13 @@ import 'package:flutter/cupertino.dart';
 class ListenableMap extends MapMixin<String, ColorPaletteModel>
     with ChangeNotifier {
   final Map<String, ColorPaletteModel> m = {};
-  String fileName;
+  String? fileName;
 
   ListenableMap();
   ListenableMap.fromFile(this.fileName) {
-    if (File(fileName).existsSync()) {
+    if (File(fileName!).existsSync()) {
       // File(fileName).deleteSync();
-      var data = File(fileName).readAsStringSync();
+      var data = File(fileName!).readAsStringSync();
       Map tmp = jsonDecode(data);
 
       tmp.forEach((key, value) {
@@ -26,8 +26,8 @@ class ListenableMap extends MapMixin<String, ColorPaletteModel>
   }
 
   @override
-  ColorPaletteModel operator [](Object key) {
-    return m[key];
+  ColorPaletteModel? operator [](Object? key) {
+    return m[key as String];
   }
 
   @override
@@ -48,7 +48,7 @@ class ListenableMap extends MapMixin<String, ColorPaletteModel>
   Iterable<String> get keys => m.keys;
 
   @override
-  ColorPaletteModel remove(Object key) {
+  ColorPaletteModel? remove(Object? key) {
     var val = m.remove(key);
     notifyListeners();
 
@@ -57,6 +57,6 @@ class ListenableMap extends MapMixin<String, ColorPaletteModel>
   }
 
   void writeData() {
-    File(fileName).writeAsStringSync(json.encode(m));
+    File(fileName!).writeAsStringSync(json.encode(m));
   }
 }

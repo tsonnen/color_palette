@@ -20,7 +20,7 @@ class ColorChipState extends State<ColorChip> {
   Widget build(BuildContext context) {
     var swatchModel = widget.swatchModel;
     var textColor =
-        swatchModel.color.computeLuminance() < .5 ? Colors.white : Colors.black;
+        swatchModel.color!.computeLuminance() < .5 ? Colors.white : Colors.black;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: swatchModel.color,
@@ -28,11 +28,11 @@ class ColorChipState extends State<ColorChip> {
       child: Row(
         children: <Widget>[
           IconButton(
-            icon: Icon(swatchModel.lock ? Icons.lock : Icons.lock_open),
+            icon: Icon(swatchModel.lock! ? Icons.lock : Icons.lock_open),
             color: textColor,
             onPressed: () {
               setState(() {
-                swatchModel.lock = !swatchModel.lock;
+                swatchModel.lock = !swatchModel.lock!;
               });
             },
           ),
@@ -63,13 +63,13 @@ class ColorChipState extends State<ColorChip> {
     );
   }
 
-  String getText(Color color) {
+  String getText(Color? color) {
     switch (PreferenceManager.getColorText()) {
       case ColorText.rgb:
-        return '(${color.red},${color.green},${color.blue})';
+        return '(${color!.red},${color.green},${color.blue})';
       case ColorText.hex:
         // remove the alpha value
-        var tmp = color.value & 16777215;
+        var tmp = color!.value & 16777215;
         return '#${tmp.toRadixString(16)}';
       default:
         return 'ERROR-PLEASE REPORT';

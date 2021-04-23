@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:color_palette/services/preference_manager.dart';
 import 'package:color_palette/widgets/color_chip.dart';
+import 'package:color_palette/widgets/numberpicker_dialog.dart';
 import 'package:color_palette/widgets/preference_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
-import 'package:preferences/preferences.dart';
+import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
 import '../models/color_palette_model.dart';
@@ -36,45 +36,44 @@ class SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text('Preferences'),
       ),
-      body: PreferencePage(
-        [
-          PreferenceTitle('Generation Method'),
-          RadioPreference(
-            'Random',
-            GenMethod.rand.index,
-            PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
-            isDefault: true,
+      body: PrefPage(
+        children: [
+          PrefTitle(title: Text('Generation Method')),
+          PrefRadio(
+            title: Text('Random'),
+            value: GenMethod.rand.index,
+            pref: PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
             selected: true,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .setGenMethod(GenMethod.rand);
             },
           ),
-          RadioPreference(
-            'Pastel',
-            GenMethod.pastel.index,
-            PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
+          PrefRadio(
+            title: Text('Pastel'),
+            value: GenMethod.pastel.index,
+            pref: PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .setGenMethod(GenMethod.pastel);
             },
           ),
-          RadioPreference(
-            'Median',
-            GenMethod.median.index,
-            PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
+          PrefRadio(
+            title: Text('Median'),
+            value: GenMethod.median.index,
+            pref: PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .setGenMethod(GenMethod.median);
             },
           ),
-          PreferenceTitle('Number Colors'),
-          FlatButton(
+          PrefTitle(title: Text('Number Colors')),
+          TextButton(
             onPressed: () {
               showDialog<int>(
                   context: context,
                   builder: (BuildContext context) {
-                    return NumberPickerDialog.integer(
+                    return NumberPickerDialog(
                       minValue: 1,
                       maxValue: 10,
                       initialIntegerValue: PreferenceManager.getNumColors(),
@@ -91,38 +90,37 @@ class SettingsPageState extends State<SettingsPage> {
             },
             child: Text('${PreferenceManager.getNumColors()}'),
           ),
-          PreferenceTitle('Color Display'),
-          RadioPreference(
-            'Hexadecimal',
-            ColorText.hex.index,
-            PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
-            isDefault: true,
+          PrefTitle(title: Text('Color Display')),
+          PrefRadio(
+            title: Text('Hexadecimal'),
+            value: ColorText.hex.index,
+            pref: PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
             selected: true,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .forceUpdate();
             },
           ),
-          RadioPreference(
-            'RGB',
-            ColorText.rgb.index,
-            PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
+          PrefRadio(
+            title: Text('RGB'),
+            value: ColorText.rgb.index,
+            pref: PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .forceUpdate();
             },
           ),
-          PreferenceTitle('Share Settings'),
-          CheckboxPreference(
-            'Show Share Options Dialog',
-            PreferenceManager.prefKeys[PrefTypes.ShowShareOptionsDialog]
+          PrefTitle(title: Text('Share Settings')),
+          PrefCheckbox(
+            title: Text('Show Share Options Dialog'),
+            pref: PreferenceManager.prefKeys[PrefTypes.ShowShareOptionsDialog]
                 .toString(),
           ),
-          SwitchPreference(
-            'Use Screen Size',
-            PreferenceManager.prefKeys[PrefTypes.ShareUseScreenSize].toString(),
-            defaultVal: PreferenceManager.getUseScreenSize(),
-            onChange: () {
+          PrefSwitch(
+            title: Text('Use Screen Size'),
+            pref: PreferenceManager.prefKeys[PrefTypes.ShareUseScreenSize]
+                .toString(),
+            onChange: (val) {
               setState(() {
                 if (PreferenceManager.getUseScreenSize()) {
                   PreferenceManager.setShareHeight(

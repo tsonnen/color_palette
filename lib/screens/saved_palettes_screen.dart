@@ -27,7 +27,7 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
       body: Builder(
         builder: (context) => ListView(
           children: colorPaletteList.keys.map((e) {
-            var colorPalette = colorPaletteList[e];
+            var colorPalette = colorPaletteList[e]!;
             return Dismissible(
               key: Key(e.hashCode.toString()),
               background: DismissableBackground(
@@ -44,7 +44,7 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
                 if (direction == DismissDirection.startToEnd) {
                   setState(() {
                     colorPaletteList.remove(e);
-                    Scaffold.of(context).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Palette removed')));
                   });
                 }
