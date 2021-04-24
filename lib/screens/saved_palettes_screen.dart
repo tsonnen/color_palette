@@ -1,10 +1,12 @@
-import 'package:color_palette/models/listenable_map.dart';
-import 'package:color_palette/services/preference_manager.dart';
-import 'package:color_palette/services/share_helper.dart';
-import 'package:color_palette/widgets/dialogs.dart';
-import 'package:color_palette/widgets/dismissable_background.dart';
 import 'package:flutter/material.dart';
+import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
+
+import '../models/listenable_map.dart';
+import '../services/preference_manager.dart';
+import '../services/share_helper.dart';
+import '../widgets/dialogs.dart';
+import '../widgets/dismissable_background.dart';
 
 class SavedPalettesScreen extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var service = PrefService.of(context);
     var colorPaletteList = Provider.of<ListenableMap>(context);
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +56,7 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
                 if (direction == DismissDirection.startToEnd) {
                   return true;
                 } else if (direction == DismissDirection.endToStart) {
-                  if (PreferenceManager.getShowShareOptionsDialog()) {
+                  if (PrefManager.getShowShareOptionsDialog(service)) {
                     await showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -62,8 +65,8 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
                   } else {
                     await ShareHelper.sharePalette(
                         colorPalette,
-                        Size(PreferenceManager.getShareWidth().toDouble(),
-                            PreferenceManager.getShareHeight().toDouble()));
+                        Size(PrefManager.getShareWidth(service).toDouble(),
+                            PrefManager.getShareHeight(service).toDouble()));
                   }
                   return false;
                 }

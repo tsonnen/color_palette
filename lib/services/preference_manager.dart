@@ -1,127 +1,84 @@
-import 'package:color_palette/widgets/color_chip.dart';
+import 'package:pref/pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/color_palette_model.dart';
+import '../widgets/color_chip.dart';
 
-enum PrefTypes {
+enum Pref {
   GenMethod,
   NumColors,
   ColorText,
   ShareUseScreenSize,
   ShareHeight,
   ShareWidth,
-  ShowShareOptionsDialog
+  ShowShareOptions
 }
 
-class PreferenceManager {
-  static final prefKeys = {
-    PrefTypes.GenMethod: 'gen_method',
-    PrefTypes.NumColors: 'num_colors',
-    PrefTypes.ColorText: 'color_text',
-    PrefTypes.ShareUseScreenSize: 'share_use_screen_size',
-    PrefTypes.ShareHeight: 'share_height',
-    PrefTypes.ShareWidth: 'share_width',
-    PrefTypes.ShowShareOptionsDialog: 'show_share_options'
-  };
+class PrefManager {
+  static final GenMethodKey = 'gen_method';
+  static final NumColorsKey = 'num_colors';
+  static final ColorTextKey = 'color_text';
+  static final ShareUseScreenSizeKey = 'share_use_screen_size';
+  static final ShareHeightKey = 'share_height';
+  static final ShareWidthKey = 'share_width';
+  static final ShowShareOptionsKey = 'show_share_options';
+
   static final prefix = 'pref_';
   static SharedPreferences? prefs;
 
-  static Future<void> getPreferences() async {
-    prefs ??= await SharedPreferences.getInstance();
+  static GenMethod getGenMethod(BasePrefService service) {
+    var genMethod = service.get<int>(GenMethodKey) ?? 0;
+    return GenMethod.values[genMethod];
   }
 
-  static GenMethod getGenMethod() {
-    if (prefs != null) {
-      var genMethod = prefs!.getInt(prefix + prefKeys[PrefTypes.GenMethod]!);
-      return GenMethod.values[genMethod!];
-    }
-    return GenMethod.rand;
+  static ColorText getColorText(BasePrefService service) {
+    var colorText = service.get<int>(ColorTextKey) ?? 0;
+    return ColorText.values[colorText];
   }
 
-  static ColorText getColorText() {
-    if (prefs != null) {
-      var colorText = prefs!.getInt(prefix + prefKeys[PrefTypes.ColorText]!);
-      return ColorText.values[colorText!];
-    }
-    return ColorText.hex;
+  static int getNumColors(BasePrefService service) {
+    var numColors = service.get<int>(NumColorsKey) ?? 5;
+    return numColors;
   }
 
-  static int getNumColors() {
-    if (prefs != null) {
-      var numColors = prefs!.getInt(prefix + prefKeys[PrefTypes.NumColors]!);
-      return numColors!;
-    }
-    return 5;
+  static bool getUseScreenSize(BasePrefService service) {
+    var useScreenSize = service.get<bool>(ShareUseScreenSizeKey) ?? true;
+    return useScreenSize;
   }
 
-  static bool getUseScreenSize() {
-    if (prefs != null) {
-      var useScreenSize =
-          prefs!.getBool(prefix + prefKeys[PrefTypes.ShareUseScreenSize]!);
-      return useScreenSize!;
-    }
-    return true;
+  static int getShareHeight(BasePrefService service) {
+    var shareHeight = service.get<String>(ShareHeightKey) ?? '2280';
+    return int.tryParse(shareHeight) ?? 2280;
   }
 
-  static int getShareHeight() {
-    if (prefs != null) {
-      var shareHeight =
-          prefs!.getString(prefix + prefKeys[PrefTypes.ShareHeight]!);
-      return int.tryParse(shareHeight!) ?? 2280;
-    }
-    return 2280;
+  static int getShareWidth(BasePrefService service) {
+    var shareWidth = service.get<String>(ShareWidthKey) ?? '1080';
+    return int.tryParse(shareWidth) ?? 1080;
   }
 
-  static int getShareWidth() {
-    if (prefs != null) {
-      var shareWidth =
-          prefs!.getString(prefix + prefKeys[PrefTypes.ShareWidth]!);
-      return int.tryParse(shareWidth!) ?? 1080;
-    }
-    return 1080;
+  static bool getShowShareOptionsDialog(BasePrefService service) {
+    var showShareOptions = service.get<bool>(ShowShareOptionsKey) ?? true;
+    return showShareOptions;
   }
 
-  static void setShareHeight(int shareHeight) {
-    if (prefs != null) {
-      prefs!.setString(
-          prefix + prefKeys[PrefTypes.ShareHeight]!, shareHeight.toString());
-    } else {
-      throw ('Prefs not initialized!');
-    }
+  static void setShareHeight(int shareHeight, BasePrefService service) {
+    service.set<String>(ShareHeightKey, shareHeight.toString());
   }
 
-  static void setShareWidth(int shareWidth) {
-    if (prefs != null) {
-      prefs!.setString(
-          prefix + prefKeys[PrefTypes.ShareWidth]!, shareWidth.toString());
-    } else {
-      throw ('Prefs not initialized!');
-    }
+  static void setShareWidth(int shareWidth, BasePrefService service) {
+    service.set<String>(ShareWidthKey, shareWidth.toString());
   }
 
-  static void setNumColors(int value) {
-    if (prefs != null) {
-      prefs!.setInt(prefix + prefKeys[PrefTypes.NumColors]!, value);
-    } else {
-      throw ('Prefs not initialized!');
-    }
+  static void setNumColors(int value, BasePrefService service) {
+    service.set<int>(ShareHeightKey, value);
   }
 
-  static dynamic get(String key) {
-    var val = prefs!.get(prefix + key);
+  static dynamic get(String key, BasePrefService service) {
+    var val = service.get(key);
     return val;
   }
 
   static void setString(String key, String val) {
     prefs!.setString(prefix + key, val);
-  }
-
-  static bool getShowShareOptionsDialog() {
-    if (prefs != null) {
-      var showShareOptions =
-          prefs!.getBool(prefix + prefKeys[PrefTypes.ShowShareOptionsDialog]!);
-      return showShareOptions!;
-    }
-    return false;
   }
 }

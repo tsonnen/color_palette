@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:color_palette/services/preference_manager.dart';
+import 'package:pref/pref.dart';
+
+import '../services/preference_manager.dart';
 
 class PreferenceNumericField extends StatefulWidget {
   final String prefKey;
   final bool enabled;
   final String label;
-  final String? defaultVal;
+  final String defaultVal;
+  final BasePrefService service;
 
   final TextEditingController controller;
 
-  PreferenceNumericField(this.label, this.prefKey,
-      {this.enabled = true, this.defaultVal, controller})
+  PreferenceNumericField(this.label, this.prefKey, this.service,
+      {this.enabled = true, required this.defaultVal, controller})
       : controller = controller ?? TextEditingController();
 
   @override
@@ -22,8 +25,7 @@ class PreferenceNumericField extends StatefulWidget {
 class PreferenceNumericFieldState extends State<PreferenceNumericField> {
   @override
   void initState() {
-    widget.controller.text =
-        PreferenceManager.get(widget.prefKey)?.toString() ?? widget.defaultVal!;
+    widget.controller.text = PrefManager.get(widget.prefKey, widget.service);
     super.initState();
   }
 
@@ -43,18 +45,17 @@ class PreferenceNumericFieldState extends State<PreferenceNumericField> {
           ],
           onSubmitted: (val) {
             setState(() {
-              PreferenceManager.setString(widget.prefKey, val);
+              PrefManager.setString(widget.prefKey, val);
             });
           },
           onEditingComplete: () {
             setState(() {
-              PreferenceManager.setString(
-                  widget.prefKey, widget.controller.text);
+              PrefManager.setString(widget.prefKey, widget.controller.text);
             });
           },
           onChanged: (val) {
             setState(() {
-              PreferenceManager.setString(widget.prefKey, val);
+              PrefManager.setString(widget.prefKey, val);
             });
           },
         ),

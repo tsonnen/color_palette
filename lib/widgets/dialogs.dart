@@ -1,12 +1,14 @@
 import 'dart:ui';
 
-import 'package:color_palette/models/color_palette_model.dart';
-import 'package:color_palette/services/preference_manager.dart';
-import 'package:color_palette/services/share_helper.dart';
-import 'package:color_palette/widgets/input_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:pref/pref.dart';
+
+import '../models/color_palette_model.dart';
+import '../services/preference_manager.dart';
+import '../services/share_helper.dart';
+import '../widgets/input_widgets.dart';
 
 class NameDialog extends StatelessWidget {
   @override
@@ -102,10 +104,17 @@ class ShareOptionsDialogState extends State<ShareOptionsDialog> {
   var shareHeightController = TextEditingController();
 
   @override
+  void didChangeDependencies() {
+    useScreenSize = PrefManager.getUseScreenSize(PrefService.of(context));
+    shareWidthController.text =
+        PrefManager.getShareWidth(PrefService.of(context)).toString();
+    shareHeightController.text =
+        PrefManager.getShareHeight(PrefService.of(context)).toString();
+    super.didChangeDependencies();
+  }
+
+  @override
   void initState() {
-    useScreenSize = PreferenceManager.getUseScreenSize();
-    shareWidthController.text = PreferenceManager.getShareWidth().toString();
-    shareHeightController.text = PreferenceManager.getShareHeight().toString();
     super.initState();
   }
 

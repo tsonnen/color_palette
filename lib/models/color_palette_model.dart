@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'swatch_model.dart';
 
 enum GenMethod { rand, pastel, median }
 
 class ColorPaletteModel extends ChangeNotifier {
   List<SwatchModel> colors = <SwatchModel>[];
-  GenMethod? _genMethod;
+  late GenMethod _genMethod;
   GenMethod? get genMethod => _genMethod;
 
   ColorPaletteModel(length, this._genMethod) {
@@ -68,7 +69,7 @@ class ColorPaletteModel extends ChangeNotifier {
     return Color.fromARGB(255, red, green, blue);
   }
 
-  ColorPaletteModel clone() {
+  ColorPaletteModel copy() {
     var tmp = ColorPaletteModel.fromJson(toJson());
     return tmp;
   }

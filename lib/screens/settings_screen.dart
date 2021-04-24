@@ -1,37 +1,28 @@
 import 'dart:ui';
 
-import 'package:color_palette/services/preference_manager.dart';
-import 'package:color_palette/widgets/color_chip.dart';
-import 'package:color_palette/widgets/numberpicker_dialog.dart';
-import 'package:color_palette/widgets/preference_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
 import '../models/color_palette_model.dart';
+import '../services/preference_manager.dart';
+import '../widgets/color_chip.dart';
+import '../widgets/numberpicker_dialog.dart';
+import '../widgets/preference_widgets.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsScreen extends StatefulWidget {
   static final String route = 'Settings-Page';
 
-  SettingsPage();
+  SettingsScreen();
 
   @override
-  SettingsPageState createState() => SettingsPageState();
+  SettingsScreenState createState() => SettingsScreenState();
 }
 
-class SettingsPageState extends State<SettingsPage> {
-  var shareWidthController = TextEditingController();
-  var shareHeightController = TextEditingController();
-
-  @override
-  void initState() {
-    shareHeightController.text = PreferenceManager.getShareHeight().toString();
-    shareWidthController.text = PreferenceManager.getShareWidth().toString();
-    super.initState();
-  }
-
+class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    var service = PrefService.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Preferences'),
@@ -42,7 +33,7 @@ class SettingsPageState extends State<SettingsPage> {
           PrefRadio(
             title: Text('Random'),
             value: GenMethod.rand.index,
-            pref: PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
+            pref: PrefManager.GenMethodKey,
             selected: true,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
@@ -52,7 +43,7 @@ class SettingsPageState extends State<SettingsPage> {
           PrefRadio(
             title: Text('Pastel'),
             value: GenMethod.pastel.index,
-            pref: PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
+            pref: PrefManager.GenMethodKey,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .setGenMethod(GenMethod.pastel);
@@ -61,7 +52,7 @@ class SettingsPageState extends State<SettingsPage> {
           PrefRadio(
             title: Text('Median'),
             value: GenMethod.median.index,
-            pref: PreferenceManager.prefKeys[PrefTypes.GenMethod].toString(),
+            pref: PrefManager.GenMethodKey,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .setGenMethod(GenMethod.median);
@@ -76,25 +67,25 @@ class SettingsPageState extends State<SettingsPage> {
                     return NumberPickerDialog(
                       minValue: 1,
                       maxValue: 10,
-                      initialIntegerValue: PreferenceManager.getNumColors(),
+                      initialIntegerValue: PrefManager.getNumColors(service),
                     );
                   }).then((value) {
                 setState(() {
                   if (value != null) {
-                    PreferenceManager.setNumColors(value);
+                    PrefManager.setNumColors(value, service);
                     Provider.of<ColorPaletteModel>(context, listen: false)
                         .setNumColors(value);
                   }
                 });
               });
             },
-            child: Text('${PreferenceManager.getNumColors()}'),
+            child: Text('${PrefManager.getNumColors(service)}'),
           ),
           PrefTitle(title: Text('Color Display')),
           PrefRadio(
             title: Text('Hexadecimal'),
             value: ColorText.hex.index,
-            pref: PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
+            pref: PrefManager.ColorTextKey,
             selected: true,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
@@ -104,7 +95,7 @@ class SettingsPageState extends State<SettingsPage> {
           PrefRadio(
             title: Text('RGB'),
             value: ColorText.rgb.index,
-            pref: PreferenceManager.prefKeys[PrefTypes.ColorText].toString(),
+            pref: PrefManager.ColorTextKey,
             onSelect: () {
               Provider.of<ColorPaletteModel>(context, listen: false)
                   .forceUpdate();
@@ -113,24 +104,18 @@ class SettingsPageState extends State<SettingsPage> {
           PrefTitle(title: Text('Share Settings')),
           PrefCheckbox(
             title: Text('Show Share Options Dialog'),
-            pref: PreferenceManager.prefKeys[PrefTypes.ShowShareOptionsDialog]
-                .toString(),
+            pref: PrefManager.ShowShareOptionsKey,
           ),
           PrefSwitch(
             title: Text('Use Screen Size'),
-            pref: PreferenceManager.prefKeys[PrefTypes.ShareUseScreenSize]
-                .toString(),
+            pref: PrefManager.ShareUseScreenSizeKey,
             onChange: (val) {
               setState(() {
-                if (PreferenceManager.getUseScreenSize()) {
-                  PreferenceManager.setShareHeight(
-                      window.physicalSize.height.toInt());
-                  shareHeightController.text =
-                      PreferenceManager.getShareHeight().toString();
-                  PreferenceManager.setShareWidth(
-                      window.physicalSize.width.toInt());
-                  shareWidthController.text =
-                      PreferenceManager.getShareWidth().toString();
+                if (PrefManager.getUseScreenSize(service)) {
+                  PrefManager.setShareHeight(
+                      window.physicalSize.height.toInt(), service);
+                  PrefManager.setShareWidth(
+                      window.physicalSize.width.toInt(), service);
                 }
               });
             },
@@ -139,17 +124,17 @@ class SettingsPageState extends State<SettingsPage> {
             children: [
               PreferenceNumericField(
                 'Width (px)',
-                PreferenceManager.prefKeys[PrefTypes.ShareWidth].toString(),
-                enabled: !PreferenceManager.getUseScreenSize(),
-                defaultVal: PreferenceManager.getShareWidth().toString(),
-                controller: shareWidthController,
+                PrefManager.ShareWidthKey,
+                service,
+                enabled: !PrefManager.getUseScreenSize(service),
+                defaultVal: PrefManager.getShareWidth(service).toString(),
               ),
               PreferenceNumericField(
                 'Height (px)',
-                PreferenceManager.prefKeys[PrefTypes.ShareHeight].toString(),
-                enabled: !PreferenceManager.getUseScreenSize(),
-                defaultVal: PreferenceManager.getShareHeight().toString(),
-                controller: shareHeightController,
+                PrefManager.ShareHeightKey,
+                service,
+                enabled: !PrefManager.getUseScreenSize(service),
+                defaultVal: PrefManager.getShareHeight(service).toString(),
               )
             ],
           ),

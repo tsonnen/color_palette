@@ -2,10 +2,11 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:color_palette/models/color_palette_model.dart';
 import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
+
+import '../models/color_palette_model.dart';
 
 class ShareHelper {
   static Future<void> shareImage(Image image) async {
@@ -38,6 +39,7 @@ class ShareHelper {
         y + chipHeight,
         getColor(m.color!.red, m.color!.green, m.color!.blue),
       );
+      drawString(image, arial_48, 0, y + height ~/ 2, 'TESTSTSDTSTSDTRS');
     });
 
     return image;

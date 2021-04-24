@@ -1,10 +1,9 @@
 import 'dart:ui';
 
+import 'package:color_palette/widgets/color_chip.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:pref/pref.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:path_provider/path_provider.dart';
 
 import 'models/color_palette_model.dart';
@@ -15,12 +14,18 @@ import 'screens/color_palette_screeen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDir = await getApplicationDocumentsDirectory();
-  var service = await PrefServiceShared.init(prefix: PreferenceManager.prefix);
+  var service =
+      await PrefServiceShared.init(prefix: PrefManager.prefix, defaults: {
+    'gen_method': GenMethod.median.index,
+    'num_colors': 5,
+    'color_text': ColorText.hex.index,
+    'share_use_screen_size': true,
+    'show_share_options': true
+  });
 
-  await PreferenceManager.getPreferences();
-  if (PreferenceManager.getUseScreenSize()) {
-    PreferenceManager.setShareHeight(window.physicalSize.height.toInt());
-    PreferenceManager.setShareWidth(window.physicalSize.width.toInt());
+  if (PrefManager.getUseScreenSize(service)) {
+    PrefManager.setShareHeight(window.physicalSize.height.toInt(), service);
+    PrefManager.setShareWidth(window.physicalSize.width.toInt(), service);
   }
 
   runApp(PrefService(
@@ -28,8 +33,8 @@ void main() async {
       child: MultiProvider(providers: [
         ChangeNotifierProvider<ColorPaletteModel>(
           create: (context) => ColorPaletteModel(
-              PreferenceManager.getNumColors(),
-              PreferenceManager.getGenMethod()),
+              service.get(PrefManager.NumColorsKey),
+              GenMethod.values[service.get(PrefManager.GenMethodKey)]),
         ),
         ChangeNotifierProvider<ListenableMap>(
           create: (context) =>
@@ -43,7 +48,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '',
+      title: 'Color Palette',
       theme: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.blue,
