@@ -1,17 +1,27 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
+part 'swatch_model.g.dart';
+
+@HiveType(typeId: 1)
 class SwatchModel {
-  bool? lock;
-  Color? _color;
-  Color? get color => _color;
+  @HiveField(0)
+  bool lock;
 
-  SwatchModel({this.lock = false, int colorVal = 0}) {
-    _color = Color(colorVal);
+  @HiveField(1)
+  int _colorVal;
+  Color get color => Color(_colorVal);
+
+  SwatchModel({this.lock = false, int colorVal = 0}) : _colorVal = colorVal;
+
+  SwatchModel copywith({bool? lock, Color? color}) {
+    return SwatchModel(
+        lock: lock ?? this.lock, colorVal: color?.value ?? this.color.value);
   }
 
-  void getRandomColor({Color? mix}) {
+  void generateColor({Color? mix}) {
     var red = Random().nextInt(255);
     var green = Random().nextInt(255);
     var blue = Random().nextInt(255);
@@ -22,14 +32,7 @@ class SwatchModel {
       blue = ((blue + mix.blue) / 2).round();
     }
 
-    _color = Color.fromARGB(255, red, green, blue);
-  }
-
-  Map<String, dynamic> toJson() => {'lock': lock, 'color': color!.value};
-
-  SwatchModel.fromJson(Map<String, dynamic> json) {
-    lock = json['lock'];
-    _color = Color(json['color']);
+    _colorVal = Color.fromARGB(255, red, green, blue).value;
   }
 
   @override
@@ -40,7 +43,7 @@ class SwatchModel {
   @override
   int get hashCode => lock.hashCode ^ color.hashCode;
 
-  void setColor(value) {
-    _color = value;
+  void setColor(Color color) {
+    _colorVal = color.value;
   }
 }

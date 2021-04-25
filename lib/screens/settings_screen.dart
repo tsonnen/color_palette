@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
-import '../models/color_palette_model.dart';
+import '../models/color_palette.dart';
 import '../services/preference_manager.dart';
 import '../widgets/color_chip.dart';
 import '../widgets/numberpicker_dialog.dart';
@@ -36,7 +36,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             pref: PrefManager.GenMethodKey,
             selected: true,
             onSelect: () {
-              Provider.of<ColorPaletteModel>(context, listen: false)
+              Provider.of<ColorPalette>(context, listen: false)
                   .setGenMethod(GenMethod.rand);
             },
           ),
@@ -45,7 +45,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             value: GenMethod.pastel.index,
             pref: PrefManager.GenMethodKey,
             onSelect: () {
-              Provider.of<ColorPaletteModel>(context, listen: false)
+              Provider.of<ColorPalette>(context, listen: false)
                   .setGenMethod(GenMethod.pastel);
             },
           ),
@@ -54,7 +54,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             value: GenMethod.median.index,
             pref: PrefManager.GenMethodKey,
             onSelect: () {
-              Provider.of<ColorPaletteModel>(context, listen: false)
+              Provider.of<ColorPalette>(context, listen: false)
                   .setGenMethod(GenMethod.median);
             },
           ),
@@ -73,8 +73,8 @@ class SettingsScreenState extends State<SettingsScreen> {
                 setState(() {
                   if (value != null) {
                     PrefManager.setNumColors(value, service);
-                    Provider.of<ColorPaletteModel>(context, listen: false)
-                        .setNumColors(value);
+                    Provider.of<ColorPalette>(context, listen: false)
+                        .setNumColors(value, PrefManager.getGenMethod(service));
                   }
                 });
               });
@@ -88,8 +88,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             pref: PrefManager.ColorTextKey,
             selected: true,
             onSelect: () {
-              Provider.of<ColorPaletteModel>(context, listen: false)
-                  .forceUpdate();
+              Provider.of<ColorPalette>(context, listen: false).forceUpdate();
             },
           ),
           PrefRadio(
@@ -97,8 +96,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             value: ColorText.rgb.index,
             pref: PrefManager.ColorTextKey,
             onSelect: () {
-              Provider.of<ColorPaletteModel>(context, listen: false)
-                  .forceUpdate();
+              Provider.of<ColorPalette>(context, listen: false).forceUpdate();
             },
           ),
           PrefTitle(title: Text('Share Settings')),

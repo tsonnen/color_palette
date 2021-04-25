@@ -3,14 +3,22 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:image/image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:file_saver/file_saver.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
-import '../models/color_palette_model.dart';
+import '../models/color_palette.dart';
 
 class ShareHelper {
   static Future<void> shareImage(Image image) async {
     final list = encodePng(image) as Uint8List;
+
+    if (kIsWeb) {
+      await FileSaver.instance
+          .saveFile('myPalette', list, 'png', mimeType: MimeType.PNG);
+      return;
+    }
 
     final tempDir = await getTemporaryDirectory();
     final file = await File('${tempDir.path}/image.jpg').create();
@@ -23,7 +31,7 @@ class ShareHelper {
     );
   }
 
-  static Image paletteToImage(ColorPaletteModel colorPaletteModel, Size size) {
+  static Image paletteToImage(ColorPalette colorPaletteModel, Size size) {
     var width = size.width.toInt();
     var height = size.height.toInt();
     var chipHeight = (height / colorPaletteModel.colors.length).floor();
@@ -37,7 +45,7 @@ class ShareHelper {
         y,
         width,
         y + chipHeight,
-        getColor(m.color!.red, m.color!.green, m.color!.blue),
+        getColor(m.color.red, m.color.green, m.color.blue),
       );
       drawString(image, arial_48, 0, y + height ~/ 2, 'TESTSTSDTSTSDTRS');
     });
@@ -46,7 +54,7 @@ class ShareHelper {
   }
 
   static Future<void> sharePalette(
-      ColorPaletteModel colorPaletteModel, Size size) async {
+      ColorPalette colorPaletteModel, Size size) async {
     var image = paletteToImage(colorPaletteModel, size);
     await shareImage(image);
   }

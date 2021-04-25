@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:pref/pref.dart';
 
-import '../models/color_palette_model.dart';
+import '../models/color_palette.dart';
 import '../services/preference_manager.dart';
 import '../services/share_helper.dart';
 import '../widgets/input_widgets.dart';
@@ -91,7 +91,7 @@ class ColorDialogState extends State<ColorDialog> {
 }
 
 class ShareOptionsDialog extends StatefulWidget {
-  final ColorPaletteModel palette;
+  final ColorPalette palette;
 
   ShareOptionsDialog(this.palette);
   @override

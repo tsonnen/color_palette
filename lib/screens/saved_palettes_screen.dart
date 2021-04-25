@@ -1,8 +1,8 @@
+import 'package:color_palette/services/color_palette_box.dart';
 import 'package:flutter/material.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
-import '../models/listenable_map.dart';
 import '../services/preference_manager.dart';
 import '../services/share_helper.dart';
 import '../widgets/dialogs.dart';
@@ -22,17 +22,16 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
   @override
   Widget build(BuildContext context) {
     var service = PrefService.of(context);
-    var colorPaletteList = Provider.of<ListenableMap>(context);
+    var colorPaletteList = Provider.of<ColorPaletteBox>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Saved Palettes'),
       ),
       body: Builder(
         builder: (context) => ListView(
-          children: colorPaletteList.keys.map((e) {
-            var colorPalette = colorPaletteList[e]!;
+          children: colorPaletteList.colorPalettes.map((colorPalette) {
             return Dismissible(
-              key: Key(e.hashCode.toString()),
+              key: Key(colorPalette.hashCode.toString()),
               background: DismissableBackground(
                   icon: Icons.delete,
                   text: 'Delete',
@@ -46,7 +45,7 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
               onDismissed: (direction) {
                 if (direction == DismissDirection.startToEnd) {
                   setState(() {
-                    colorPaletteList.remove(e);
+                    colorPaletteList.deleteColorPalette(colorPalette);
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Palette removed')));
                   });

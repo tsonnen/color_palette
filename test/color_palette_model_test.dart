@@ -1,19 +1,27 @@
-// Create a MockClient using the Mock class provided by the Mockito package.
-// Create new instances of this class in each test.
-
-import 'package:color_palette/models/color_palette_model.dart';
+import 'package:color_palette/models/color_palette.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Color Palette Model JSON Test', () {
+  group('Color Palette Data Test', () {
     setUp(() {});
 
-    test('JSON end to end test', () async {
-      var colorPaletteModel = ColorPaletteModel(1, GenMethod.rand);
-      var json = colorPaletteModel.toJson();
-      var fromJSON = ColorPaletteModel.fromJson(json);
+    test('Copy with test', () async {
+      var colorPalette =
+          ColorPalette.generated(length: 10, genMethod: GenMethod.pastel);
 
-      expect(fromJSON, colorPaletteModel);
+      var copied = colorPalette.copyWith();
+
+      expect(colorPalette, copied);
+
+      copied.setGenMethod(GenMethod.median);
+
+      expect(colorPalette == copied, false);
+    });
+
+    test('Different swatch model instances', () {
+      var colorPalette =
+          ColorPalette.generated(length: 10, genMethod: GenMethod.pastel);
+      expect(colorPalette.colors.first == colorPalette.colors.last, false);
     });
   });
 }

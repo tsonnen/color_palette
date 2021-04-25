@@ -1,6 +1,8 @@
 // Create a MockClient using the Mock class provided by the Mockito package.
 // Create new instances of this class in each test.
 
+import 'dart:math';
+
 import 'package:color_palette/models/swatch_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -8,13 +10,15 @@ void main() {
   group('Swatch Model Test', () {
     setUp(() {});
 
-    test('JSON end to end test', () async {
+    test('Test copyWith', () async {
       var swatchModel = SwatchModel();
-      swatchModel.getRandomColor();
-      var json = swatchModel.toJson();
-      var fromJSON = SwatchModel.fromJson(json);
+      var copied = swatchModel.copywith();
 
-      expect(fromJSON, swatchModel);
+      expect(swatchModel, copied);
+
+      copied.changeColor();
+
+      expect(swatchModel == copied, false);
     });
   });
 }

@@ -1,26 +1,28 @@
 import 'dart:ui';
 
-import 'package:color_palette/widgets/color_chip.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:pref/pref.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import 'models/color_palette_model.dart';
-import 'models/listenable_map.dart';
+import 'package:pref/pref.dart';
+import 'package:provider/provider.dart';
+
+import 'models/color_palette.dart';
+import 'screens/color_palette_screen.dart';
+import 'services/color_palette_box.dart';
 import 'services/preference_manager.dart';
-import 'screens/color_palette_screeen.dart';
+import 'widgets/color_chip.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var appDir = await getApplicationDocumentsDirectory();
+
   var service =
       await PrefServiceShared.init(prefix: PrefManager.prefix, defaults: {
-    'gen_method': GenMethod.median.index,
-    'num_colors': 5,
-    'color_text': ColorText.hex.index,
-    'share_use_screen_size': true,
-    'show_share_options': true
+    PrefManager.GenMethodKey: GenMethod.median.index,
+    PrefManager.NumColorsKey: 5,
+    PrefManager.ColorTextKey: ColorText.hex.index,
+    PrefManager.ShareUseScreenSizeKey: true,
+    PrefManager.ShowShareOptionsKey: true
   });
 
   if (PrefManager.getUseScreenSize(service)) {
@@ -28,17 +30,20 @@ void main() async {
     PrefManager.setShareWidth(window.physicalSize.width.toInt(), service);
   }
 
+  await Hive.initFlutter();
+  var colorPalettesBox = ColorPaletteBox();
+  await colorPalettesBox.init();
+
   runApp(PrefService(
       service: service,
       child: MultiProvider(providers: [
-        ChangeNotifierProvider<ColorPaletteModel>(
-          create: (context) => ColorPaletteModel(
-              service.get(PrefManager.NumColorsKey),
-              GenMethod.values[service.get(PrefManager.GenMethodKey)]),
+        ChangeNotifierProvider<ColorPalette>(
+          create: (context) => ColorPalette.generated(
+              length: service.get(PrefManager.NumColorsKey),
+              genMethod: PrefManager.getGenMethod(service)),
         ),
-        ChangeNotifierProvider<ListenableMap>(
-          create: (context) =>
-              ListenableMap.fromFile('${appDir.path}/colors.json'),
+        ChangeNotifierProvider<ColorPaletteBox>(
+          create: (context) => colorPalettesBox,
         ),
       ], child: MyApp())));
 }
