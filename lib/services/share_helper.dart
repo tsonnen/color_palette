@@ -6,7 +6,7 @@ import 'package:image/image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:file_saver/file_saver.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:share/share.dart';
 
 import '../models/color_palette.dart';
 
