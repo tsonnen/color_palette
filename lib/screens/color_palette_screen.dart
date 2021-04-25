@@ -1,10 +1,9 @@
-import 'package:color_palette/services/color_palette_box.dart';
 import 'package:flutter/material.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 import '../models/color_palette.dart';
+import '../services/color_palette_box.dart';
 import '../services/preference_manager.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/color_chip.dart';

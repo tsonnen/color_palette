@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -78,7 +76,7 @@ class ColorPalette extends ChangeNotifier {
     colors.where((element) {
       return !element.lock;
     }).forEach((element) {
-      element.changeColor(mix: mix);
+      element.generateColor(mix: mix);
     });
 
     notifyListeners();
