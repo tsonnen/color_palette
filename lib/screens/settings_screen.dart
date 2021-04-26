@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
@@ -118,22 +119,20 @@ class SettingsScreenState extends State<SettingsScreen> {
               });
             },
           ),
-          Row(
-            children: [
-              PreferenceNumericField(
-                'Width (px)',
-                PrefManager.ShareWidthKey,
-                service,
-                enabled: !PrefManager.getUseScreenSize(service),
-                defaultVal: PrefManager.getShareWidth(service).toString(),
-              ),
-              PreferenceNumericField(
-                'Height (px)',
-                PrefManager.ShareHeightKey,
-                service,
-                enabled: !PrefManager.getUseScreenSize(service),
-                defaultVal: PrefManager.getShareHeight(service).toString(),
-              )
+          PrefText(
+            pref: PrefManager.ShareWidthKey,
+            label: 'Width (px)',
+            disabled: PrefManager.getUseScreenSize(service),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          ),
+          PrefText(
+            pref: PrefManager.ShareHeightKey,
+            label: 'Height (px)',
+            disabled: PrefManager.getUseScreenSize(service),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
             ],
           ),
         ],
