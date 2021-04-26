@@ -9,7 +9,6 @@ import '../models/color_palette.dart';
 import '../services/preference_manager.dart';
 import '../widgets/color_chip.dart';
 import '../widgets/numberpicker_dialog.dart';
-import '../widgets/preference_widgets.dart';
 
 class SettingsScreen extends StatefulWidget {
   static final String route = 'Settings-Page';
