@@ -71,7 +71,7 @@ class PrefManager {
   }
 
   static void setNumColors(int value, BasePrefService service) {
-    service.set<int>(ShareHeightKey, value);
+    service.set<int>(NumColorsKey, value);
   }
 
   static dynamic get(String key, BasePrefService service) {
