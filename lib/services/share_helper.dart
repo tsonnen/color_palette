@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/material.dart' show Colors;
 import 'package:image/image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:file_saver/file_saver.dart';
@@ -47,7 +48,11 @@ class ShareHelper {
         y + chipHeight,
         getColor(m.color.red, m.color.green, m.color.blue),
       );
-      drawString(image, arial_48, 0, y + height ~/ 2, 'TESTSTSDTSTSDTRS');
+      drawString(image, arial_48, width ~/ 2, y + chipHeight ~/ 2,
+          'rgb(${m.color.red}, ${m.color.green}, ${m.color.blue})',
+          color: m.color.computeLuminance() < .5
+              ? Colors.white.value
+              : Colors.black.value);
     });
 
     return image;

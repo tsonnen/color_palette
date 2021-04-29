@@ -13,6 +13,8 @@ class ColorPaletteBox extends ChangeNotifier {
     Hive.registerAdapter(ColorPaletteAdapter());
     Hive.registerAdapter(SwatchModelAdapter());
     await Hive.openBox<ColorPalette>(key);
+
+    getColorPalettes();
   }
 
   void getColorPalettes() {
