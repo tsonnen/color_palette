@@ -24,6 +24,12 @@ void main() {
       expect(colorPalette.colors.first == colorPalette.colors.last, false);
     });
 
-    test('Test that number of colors changes', () async {});
+    test('Test that number of colors changes', () async {
+      expect(colorPalette.length, 10);
+
+      colorPalette.setNumColors(5, GenMethod.median);
+
+      expect(colorPalette.length, 5);
+    });
   });
 }
