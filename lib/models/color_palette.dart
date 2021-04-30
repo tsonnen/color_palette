@@ -23,7 +23,7 @@ class ColorPalette extends ChangeNotifier {
   ColorPalette({required this.colors});
 
   void setNumColors(int numColors, GenMethod genMethod) {
-    colors = List<SwatchModel>.generate(length, (_) => SwatchModel());
+    colors = List<SwatchModel>.generate(numColors, (_) => SwatchModel());
 
     generateColors(genMethod);
   }
