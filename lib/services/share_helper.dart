@@ -48,8 +48,9 @@ class ShareHelper {
         y + chipHeight,
         getColor(m.color.red, m.color.green, m.color.blue),
       );
-      drawString(image, arial_48, width ~/ 2, y + chipHeight ~/ 2,
+      drawStringCentered(image, arial_48,
           'rgb(${m.color.red}, ${m.color.green}, ${m.color.blue})',
+          y: y + chipHeight ~/ 2,
           color: m.color.computeLuminance() < .5
               ? Colors.white.value
               : Colors.black.value);
