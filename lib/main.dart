@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:color_palette/services/generation_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,7 +19,7 @@ void main() async {
 
   var service =
       await PrefServiceShared.init(prefix: PrefManager.prefix, defaults: {
-    PrefManager.GenMethodKey: GenMethod.median.index,
+    PrefManager.GenMethodKey: GenMethodEnum.median.index,
     PrefManager.NumColorsKey: 5,
     PrefManager.ColorTextKey: ColorText.hex.index,
     PrefManager.ShareUseScreenSizeKey: true,
@@ -40,7 +41,8 @@ void main() async {
         ChangeNotifierProvider<ColorPalette>(
           create: (context) => ColorPalette.generated(
               length: service.get(PrefManager.NumColorsKey),
-              genMethod: PrefManager.getGenMethod(service)),
+              generationMethod:
+                  GenerationMethod.mapEnum(PrefManager.getGenMethod(service))),
         ),
         ChangeNotifierProvider<ColorPaletteBox>(
           create: (context) => colorPalettesBox,

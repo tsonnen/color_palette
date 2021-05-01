@@ -1,5 +1,6 @@
-import 'package:color_palette/models/swatch_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:color_palette/models/swatch_model.dart';
 
 void main() {
   group('Swatch Model Test', () {

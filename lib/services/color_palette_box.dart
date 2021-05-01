@@ -1,7 +1,8 @@
-import 'package:color_palette/models/color_palette.dart';
-import 'package:color_palette/models/swatch_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+
+import '../models/color_palette.dart';
+import '../models/swatch_model.dart';
 
 class ColorPaletteBox extends ChangeNotifier {
   final key = 'color_palettes';

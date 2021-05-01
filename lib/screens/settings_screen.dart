@@ -6,6 +6,7 @@ import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
 import '../models/color_palette.dart';
+import '../services/generation_methods.dart';
 import '../services/preference_manager.dart';
 import '../widgets/color_chip.dart';
 import '../widgets/numberpicker_dialog.dart';
@@ -32,30 +33,30 @@ class SettingsScreenState extends State<SettingsScreen> {
           PrefTitle(title: Text('Generation Method')),
           PrefRadio(
             title: Text('Random'),
-            value: GenMethod.rand.index,
+            value: GenMethodEnum.rand.index,
             pref: PrefManager.GenMethodKey,
             selected: true,
             onSelect: () {
               Provider.of<ColorPalette>(context, listen: false)
-                  .setGenMethod(GenMethod.rand);
+                  .setGenMethod(RandomGenerationMethod());
             },
           ),
           PrefRadio(
             title: Text('Pastel'),
-            value: GenMethod.pastel.index,
+            value: GenMethodEnum.pastel.index,
             pref: PrefManager.GenMethodKey,
             onSelect: () {
               Provider.of<ColorPalette>(context, listen: false)
-                  .setGenMethod(GenMethod.pastel);
+                  .setGenMethod(PastelGenerationMethod());
             },
           ),
           PrefRadio(
             title: Text('Median'),
-            value: GenMethod.median.index,
+            value: GenMethodEnum.median.index,
             pref: PrefManager.GenMethodKey,
             onSelect: () {
               Provider.of<ColorPalette>(context, listen: false)
-                  .setGenMethod(GenMethod.median);
+                  .setGenMethod(MedianGenerationMethod());
             },
           ),
           PrefTitle(title: Text('Number Colors')),
@@ -74,7 +75,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   if (value != null) {
                     PrefManager.setNumColors(value, service);
                     Provider.of<ColorPalette>(context, listen: false)
-                        .setNumColors(value, PrefManager.getGenMethod(service));
+                        .setNumColors(value);
                   }
                 });
               });

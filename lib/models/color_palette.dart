@@ -2,52 +2,38 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../services/generation_methods.dart';
 import 'swatch_model.dart';
 
 part 'color_palette.g.dart';
-
-enum GenMethod { rand, pastel, median }
 
 @HiveType(typeId: 0)
 class ColorPalette extends ChangeNotifier {
   @HiveField(0)
   late List<SwatchModel> colors;
 
+  GenerationMethod generationMethod;
+
   int get length => colors.length;
 
-  ColorPalette.generated({required int length, required GenMethod genMethod})
+  ColorPalette.generated({required int length, required this.generationMethod})
       : colors = List<SwatchModel>.generate(length, (_) => SwatchModel()) {
-    generateColors(genMethod);
+    generateColors();
   }
 
-  ColorPalette({required this.colors});
+  ColorPalette(
+      {required this.colors,
+      this.generationMethod = const RandomGenerationMethod()});
 
-  void setNumColors(int numColors, GenMethod genMethod) {
+  void setNumColors(int numColors) {
     colors = List<SwatchModel>.generate(numColors, (_) => SwatchModel());
 
-    generateColors(genMethod);
+    generateColors();
   }
 
-  Color getPaletteMedian() {
-    var totalRed = 0;
-    var totalBlue = 0;
-    var totalGreen = 0;
-
-    colors.forEach((element) {
-      totalRed += element.color.red;
-      totalBlue += element.color.blue;
-      totalGreen += element.color.green;
-    });
-
-    var red = (totalRed / length).round();
-    var green = (totalGreen / length).round();
-    var blue = (totalBlue / length).round();
-
-    return Color.fromARGB(255, red, green, blue);
-  }
-
-  void setGenMethod(GenMethod genMethod) {
-    generateColors(genMethod);
+  void setGenMethod(GenerationMethod generationMethod) {
+    this.generationMethod = generationMethod;
+    generateColors();
   }
 
   ColorPalette copyWith({List<SwatchModel>? colors}) {
@@ -60,24 +46,8 @@ class ColorPalette extends ChangeNotifier {
     return tmp;
   }
 
-  void generateColors(GenMethod genMethod) {
-    var mix;
-    switch (genMethod) {
-      case GenMethod.pastel:
-        mix = Colors.white;
-        break;
-      case GenMethod.median:
-        mix = getPaletteMedian();
-        break;
-      default:
-        break;
-    }
-
-    colors.where((element) {
-      return !element.lock;
-    }).forEach((element) {
-      element.generateColor(mix: mix);
-    });
+  void generateColors() {
+    colors = generationMethod.Generate(colors);
 
     notifyListeners();
   }

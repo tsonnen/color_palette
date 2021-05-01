@@ -1,10 +1,10 @@
-import 'package:color_palette/services/color_palette_box.dart';
 import 'package:flutter/material.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
+import '../services/color_palette_box.dart';
 import '../services/preference_manager.dart';
-import '../services/share_helper.dart';
+import '../helpers/share_helper.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/dismissable_background.dart';
 

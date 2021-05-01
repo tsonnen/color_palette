@@ -1,8 +1,8 @@
 import 'package:pref/pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/color_palette.dart';
 import '../widgets/color_chip.dart';
+import 'generation_methods.dart';
 
 enum Pref {
   GenMethod,
@@ -26,9 +26,10 @@ class PrefManager {
   static final prefix = 'pref_';
   static SharedPreferences? prefs;
 
-  static GenMethod getGenMethod(BasePrefService service) {
-    var genMethod = service.get<int>(GenMethodKey) ?? GenMethod.median.index;
-    return GenMethod.values[genMethod];
+  static GenMethodEnum getGenMethod(BasePrefService service) {
+    var genMethod =
+        service.get<int>(GenMethodKey) ?? GenMethodEnum.median.index;
+    return GenMethodEnum.values[genMethod];
   }
 
   static ColorText getColorText(BasePrefService service) {

@@ -7,7 +7,7 @@ import 'package:pref/pref.dart';
 
 import '../models/color_palette.dart';
 import '../services/preference_manager.dart';
-import '../services/share_helper.dart';
+import '../helpers/share_helper.dart';
 import '../widgets/input_widgets.dart';
 
 class NameDialog extends StatelessWidget {

@@ -53,8 +53,7 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Provider.of<ColorPalette>(context, listen: false)
-              .generateColors(PrefManager.getGenMethod(service));
+          Provider.of<ColorPalette>(context, listen: false).generateColors();
         },
         tooltip: 'Refresh',
         child: Icon(Icons.refresh),

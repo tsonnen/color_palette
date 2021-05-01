@@ -1,13 +1,16 @@
-import 'package:color_palette/models/color_palette.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:color_palette/models/color_palette.dart';
+import 'package:color_palette/services/generation_methods.dart';
 
 void main() {
   group('Color Palette Data Test', () {
     late ColorPalette colorPalette;
 
     setUp(() {
-      colorPalette =
-          ColorPalette.generated(length: 10, genMethod: GenMethod.pastel);
+      colorPalette = ColorPalette.generated(
+          length: 10,
+          generationMethod: GenerationMethod.mapEnum(GenMethodEnum.pastel));
     });
 
     test('Copy with test', () async {
@@ -15,7 +18,7 @@ void main() {
 
       expect(colorPalette, copied);
 
-      copied.setGenMethod(GenMethod.median);
+      copied.setGenMethod(MedianGenerationMethod());
 
       expect(colorPalette == copied, false);
     });
@@ -27,7 +30,7 @@ void main() {
     test('Test that number of colors changes', () async {
       expect(colorPalette.length, 10);
 
-      colorPalette.setNumColors(5, GenMethod.median);
+      colorPalette.setNumColors(5);
 
       expect(colorPalette.length, 5);
     });
