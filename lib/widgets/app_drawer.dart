@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/saved_palettes_screen.dart';
-import '../screens/settings_screen.dart';
+import '../screens/preferences_screen.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class AppDrawerState extends State<AppDrawer> {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => SettingsScreen(),
+                    builder: (context) => PreferencesScreen(),
                   ),
                 );
               }),

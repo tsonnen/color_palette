@@ -6,6 +6,7 @@ import '../providers/color_text_provider.dart';
 import '../services/color_palette_box.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/color_chip.dart';
+import '../widgets/share_widget_helper.dart';
 
 class ColorPaletteScreen extends StatefulWidget {
   ColorPaletteScreen();
@@ -27,6 +28,13 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
     var colorTextProvider = Provider.of<ColorTextProvider>(context);
     return Scaffold(
       appBar: AppBar(title: Text('Color Palette'), actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.share),
+          onPressed: () {
+            ShareWidgetHelper.share(
+                context: context, colorPalette: colorPaletteModel);
+          },
+        ),
         IconButton(
           icon: Icon(Icons.save),
           onPressed: () {

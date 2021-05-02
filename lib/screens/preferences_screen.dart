@@ -12,16 +12,16 @@ import '../services/generation_methods.dart';
 import '../services/preference_manager.dart';
 import '../widgets/numberpicker_dialog.dart';
 
-class SettingsScreen extends StatefulWidget {
+class PreferencesScreen extends StatefulWidget {
   static final String route = 'Settings-Page';
 
-  SettingsScreen();
+  PreferencesScreen();
 
   @override
-  SettingsScreenState createState() => SettingsScreenState();
+  _PreferencesScreenState createState() => _PreferencesScreenState();
 }
 
-class SettingsScreenState extends State<SettingsScreen> {
+class _PreferencesScreenState extends State<PreferencesScreen> {
   @override
   Widget build(BuildContext context) {
     var service = PrefService.of(context);

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
 import '../services/color_palette_box.dart';
-import '../services/preference_manager.dart';
-import '../helpers/share_helper.dart';
-import '../widgets/dialogs.dart';
 import '../widgets/dismissable_background.dart';
+import '../widgets/share_widget_helper.dart';
 
 class SavedPalettesScreen extends StatefulWidget {
   @override
@@ -21,7 +18,6 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var service = PrefService.of(context);
     var colorPaletteList = Provider.of<ColorPaletteBox>(context);
     return Scaffold(
       appBar: AppBar(
@@ -54,23 +50,10 @@ class SavedPalettesScreenState extends State<SavedPalettesScreen> {
               confirmDismiss: (direction) async {
                 if (direction == DismissDirection.startToEnd) {
                   return true;
-                } else if (direction == DismissDirection.endToStart) {
-                  if (PrefManager.getShowShareOptionsDialog(service)) {
-                    await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ShareOptionsDialog(colorPalette);
-                        });
-                  } else {
-                    await ShareHelper.sharePalette(
-                        colorPalette,
-                        Size(PrefManager.getShareWidth(service).toDouble(),
-                            PrefManager.getShareHeight(service).toDouble()));
-                  }
-                  return false;
                 }
-
-                return null;
+                ShareWidgetHelper.share(
+                    context: context, colorPalette: colorPalette);
+                return false;
               },
               child: Container(
                 height: 50.0,

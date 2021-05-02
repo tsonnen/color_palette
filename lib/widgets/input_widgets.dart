@@ -23,7 +23,12 @@ class LabeledInputState extends State<LabeledInput> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [Text(widget.label), widget.widget],
+      children: [
+        Expanded(
+          child: Text(widget.label),
+        ),
+        Expanded(child: widget.widget)
+      ],
     );
   }
 }

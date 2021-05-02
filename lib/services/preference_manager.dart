@@ -33,7 +33,6 @@ class PrefManager {
   }
 
   static ColorTextEnum getColorText(BasePrefService service) {
-    ColorTextEnum.hex.index;
     var colorText = service.get<int>(ColorTextKey) ?? ColorTextEnum.hex.index;
     return ColorTextEnum.values[colorText];
   }

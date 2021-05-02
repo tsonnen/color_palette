@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 
 import '../models/color_palette.dart';
+import '../providers/color_text_provider.dart';
 
 class ShareHelper {
   static Future<void> shareImage(Image image) async {
@@ -32,7 +33,8 @@ class ShareHelper {
     );
   }
 
-  static Image paletteToImage(ColorPalette colorPaletteModel, Size size) {
+  static Image paletteToImage(ColorPalette colorPaletteModel, Size size,
+      ColorTextProvider colorTextProvider) {
     var width = size.width.toInt();
     var height = size.height.toInt();
     var chipHeight = (height / colorPaletteModel.colors.length).floor();
@@ -48,8 +50,7 @@ class ShareHelper {
         y + chipHeight,
         getColor(m.color.red, m.color.green, m.color.blue),
       );
-      drawStringCentered(image, arial_48,
-          'rgb(${m.color.red}, ${m.color.green}, ${m.color.blue})',
+      drawStringCentered(image, arial_48, colorTextProvider.getText(m.color),
           y: y + chipHeight ~/ 2,
           color: m.color.computeLuminance() < .5
               ? Colors.white.value
@@ -60,8 +61,9 @@ class ShareHelper {
   }
 
   static Future<void> sharePalette(
-      ColorPalette colorPaletteModel, Size size) async {
-    var image = paletteToImage(colorPaletteModel, size);
-    await shareImage(image);
+      {required ColorPalette colorPalette,
+      required Size size,
+      required ColorTextProvider colorTextProvider}) async {
+    await shareImage(paletteToImage(colorPalette, size, colorTextProvider));
   }
 }
