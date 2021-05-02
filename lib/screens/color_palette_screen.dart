@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
 import '../models/color_palette.dart';
+import '../providers/color_text_provider.dart';
 import '../services/color_palette_box.dart';
-import '../services/preference_manager.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/color_chip.dart';
 
@@ -23,9 +22,9 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var service = PrefService.of(context);
     var colorPaletteList = Provider.of<ColorPaletteBox>(context);
     var colorPaletteModel = Provider.of<ColorPalette>(context);
+    var colorTextProvider = Provider.of<ColorTextProvider>(context);
     return Scaffold(
       appBar: AppBar(title: Text('Color Palette'), actions: <Widget>[
         IconButton(
@@ -44,7 +43,7 @@ class ColorPaletteScreenState extends State<ColorPaletteScreen> {
                 (e) => Expanded(
                   child: ColorChip(
                     e,
-                    PrefManager.getColorText(service),
+                    colorTextProvider,
                   ),
                 ),
               )

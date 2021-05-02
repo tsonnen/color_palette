@@ -2,15 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/swatch_model.dart';
+import '../providers/color_text_provider.dart';
 import '../widgets/dialogs.dart';
-
-enum ColorText { hex, rgb }
 
 class ColorChip extends StatefulWidget {
   final SwatchModel swatchModel;
-  final ColorText colorText;
+  final ColorTextProvider colorTextProvider;
 
-  const ColorChip(this.swatchModel, this.colorText);
+  const ColorChip(this.swatchModel, this.colorTextProvider);
 
   @override
   ColorChipState createState() => ColorChipState();
@@ -39,7 +38,7 @@ class ColorChipState extends State<ColorChip> {
           ),
           Container(
             child: Text(
-              getText(swatchModel.color),
+              widget.colorTextProvider.getText(swatchModel.color),
               style: TextStyle(color: textColor),
               textAlign: TextAlign.center,
             ),
@@ -62,18 +61,5 @@ class ColorChipState extends State<ColorChip> {
         ],
       ),
     );
-  }
-
-  String getText(Color? color) {
-    switch (widget.colorText) {
-      case ColorText.rgb:
-        return '(${color!.red},${color.green},${color.blue})';
-      case ColorText.hex:
-        // remove the alpha value
-        var tmp = color!.value & 16777215;
-        return '#${tmp.toRadixString(16)}';
-      default:
-        return 'ERROR-PLEASE REPORT';
-    }
   }
 }

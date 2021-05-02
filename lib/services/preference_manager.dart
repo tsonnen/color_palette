@@ -1,8 +1,8 @@
 import 'package:pref/pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../widgets/color_chip.dart';
 import 'generation_methods.dart';
+import '../helpers/color_text_generator.dart';
 
 enum Pref {
   GenMethod,
@@ -32,10 +32,10 @@ class PrefManager {
     return GenMethodEnum.values[genMethod];
   }
 
-  static ColorText getColorText(BasePrefService service) {
-    ColorText.hex.index;
-    var colorText = service.get<int>(ColorTextKey) ?? ColorText.hex.index;
-    return ColorText.values[colorText];
+  static ColorTextEnum getColorText(BasePrefService service) {
+    ColorTextEnum.hex.index;
+    var colorText = service.get<int>(ColorTextKey) ?? ColorTextEnum.hex.index;
+    return ColorTextEnum.values[colorText];
   }
 
   static int getNumColors(BasePrefService service) {

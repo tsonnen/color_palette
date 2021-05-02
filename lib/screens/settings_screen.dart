@@ -5,10 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/color_text_generator.dart';
 import '../models/color_palette.dart';
+import '../providers/color_text_provider.dart';
 import '../services/generation_methods.dart';
 import '../services/preference_manager.dart';
-import '../widgets/color_chip.dart';
 import '../widgets/numberpicker_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -85,19 +86,21 @@ class SettingsScreenState extends State<SettingsScreen> {
           PrefTitle(title: Text('Color Display')),
           PrefRadio(
             title: Text('Hexadecimal'),
-            value: ColorText.hex.index,
+            value: ColorTextEnum.hex.index,
             pref: PrefManager.ColorTextKey,
             selected: true,
             onSelect: () {
-              Provider.of<ColorPalette>(context, listen: false).forceUpdate();
+              Provider.of<ColorTextProvider>(context, listen: false)
+                  .changeTextGenerator(HexTextGenerator());
             },
           ),
           PrefRadio(
             title: Text('RGB'),
-            value: ColorText.rgb.index,
+            value: ColorTextEnum.rgb.index,
             pref: PrefManager.ColorTextKey,
             onSelect: () {
-              Provider.of<ColorPalette>(context, listen: false).forceUpdate();
+              Provider.of<ColorTextProvider>(context, listen: false)
+                  .changeTextGenerator(RGBTextGenerator());
             },
           ),
           PrefTitle(title: Text('Share Settings')),

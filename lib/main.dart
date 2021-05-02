@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:color_palette/services/generation_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,11 +6,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pref/pref.dart';
 import 'package:provider/provider.dart';
 
+import 'helpers/color_text_generator.dart';
 import 'models/color_palette.dart';
+import 'providers/color_text_provider.dart';
 import 'screens/color_palette_screen.dart';
 import 'services/color_palette_box.dart';
+import 'services/generation_methods.dart';
 import 'services/preference_manager.dart';
-import 'widgets/color_chip.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ void main() async {
       await PrefServiceShared.init(prefix: PrefManager.prefix, defaults: {
     PrefManager.GenMethodKey: GenMethodEnum.median.index,
     PrefManager.NumColorsKey: 5,
-    PrefManager.ColorTextKey: ColorText.hex.index,
+    PrefManager.ColorTextKey: ColorTextEnum.hex.index,
     PrefManager.ShareUseScreenSizeKey: true,
     PrefManager.ShowShareOptionsKey: true
   });
@@ -47,6 +47,9 @@ void main() async {
         ChangeNotifierProvider<ColorPaletteBox>(
           create: (context) => colorPalettesBox,
         ),
+        ChangeNotifierProvider<ColorTextProvider>(
+            create: (context) => ColorTextProvider(
+                ColorTextGenerator.mapEnum(PrefManager.getColorText(service))))
       ], child: MyApp())));
 }
 
