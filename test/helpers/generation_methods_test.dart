@@ -1,7 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:color_palette/helpers/color_helper.dart';
-import 'package:color_palette/models/swatch_model.dart';
 import 'package:color_palette/services/generation_methods.dart';
 
 void main() {
@@ -19,34 +20,32 @@ void main() {
           isA<RandomGenerationMethod>());
     });
   });
-
   group('Test that generations are reasonable', () {
-    List<SwatchModel> colors;
+    List<Color> colors;
 
     setUp(() {
-      colors = List<SwatchModel>.generate(
-          10, (_) => SwatchModel(colorVal: ColorHelper.randomColor().value));
+      colors = List<Color>.generate(10, (_) => ColorHelper.randomColor());
 
       test('Test pastel generation', () {
         var genMethod = PastelGenerationMethod();
         genMethod.Generate(colors).forEach((element) {
-          expect(element.color.computeLuminance(), greaterThanOrEqualTo(.5));
+          expect(element.computeLuminance(), greaterThanOrEqualTo(.5));
         });
       });
       test('Test median generation', () {
         var genMethod = MedianGenerationMethod();
-        var medianColor = ColorHelper.getSwatchListMedian(colors);
+        var medianColor = ColorHelper.getColorListMedian(colors);
         genMethod.Generate(colors).forEach((element) {
           expect(
-              element.color.red,
+              element.red,
               inInclusiveRange(
                   medianColor.red ~/ 2, (medianColor.red + 255) ~/ 2));
           expect(
-              element.color.blue,
+              element.blue,
               inInclusiveRange(
                   medianColor.blue ~/ 2, (medianColor.blue + 255) ~/ 2));
           expect(
-              element.color.green,
+              element.green,
               inInclusiveRange(
                   medianColor.green ~/ 2, (medianColor.green + 255) ~/ 2));
         });

@@ -60,6 +60,24 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   .setGenMethod(MedianGenerationMethod());
             },
           ),
+          PrefRadio(
+            title: Text('HSL'),
+            value: GenMethodEnum.hsl.index,
+            pref: PrefManager.GenMethodKey,
+            onSelect: () {
+              Provider.of<ColorPalette>(context, listen: false)
+                  .setGenMethod(HSLGenerationMethod());
+            },
+          ),
+          PrefRadio(
+            title: Text('Lerp'),
+            value: GenMethodEnum.lerp.index,
+            pref: PrefManager.GenMethodKey,
+            onSelect: () {
+              Provider.of<ColorPalette>(context, listen: false)
+                  .setGenMethod(LerpGenerationMethod());
+            },
+          ),
           PrefTitle(title: Text('Number Colors')),
           TextButton(
             onPressed: () {

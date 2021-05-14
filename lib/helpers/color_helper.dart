@@ -6,6 +6,10 @@ import '../models/swatch_model.dart';
 
 class ColorHelper {
   static Color getSwatchListMedian(List<SwatchModel> colors) {
+    return getColorListMedian(colors.map((e) => e.color).toList());
+  }
+
+  static Color getColorListMedian(List<Color> colors) {
     if (colors.isEmpty) return ColorHelper.randomColor();
 
     var length = colors.length;
@@ -15,9 +19,9 @@ class ColorHelper {
     var totalGreen = 0;
 
     colors.forEach((element) {
-      totalRed += element.color.red;
-      totalBlue += element.color.blue;
-      totalGreen += element.color.green;
+      totalRed += element.red;
+      totalBlue += element.blue;
+      totalGreen += element.green;
     });
 
     var red = (totalRed / length).round();

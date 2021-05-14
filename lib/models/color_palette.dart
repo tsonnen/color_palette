@@ -47,7 +47,15 @@ class ColorPalette extends ChangeNotifier {
   }
 
   void generateColors() {
-    colors = generationMethod.Generate(colors);
+    var tmpColors =
+        generationMethod.Generate(colors.map((e) => e.color).toList());
+
+    colors = List<SwatchModel>.generate(
+      colors.length,
+      (index) => colors[index].lock
+          ? colors[index]
+          : SwatchModel(colorVal: tmpColors[index].value),
+    );
 
     notifyListeners();
   }

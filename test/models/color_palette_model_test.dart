@@ -1,3 +1,5 @@
+import 'package:color_palette/helpers/color_helper.dart';
+import 'package:color_palette/models/swatch_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:color_palette/models/color_palette.dart';
@@ -33,6 +35,26 @@ void main() {
       colorPalette.setNumColors(5);
 
       expect(colorPalette.length, 5);
+    });
+
+    test('Expect that locked colors do not change', () {
+      var colors = List<SwatchModel>.generate(
+        10,
+        (index) => SwatchModel(
+            colorVal: ColorHelper.randomColor().value, lock: index % 2 == 0),
+      );
+
+      colorPalette.colors =
+          List<SwatchModel>.generate(colors.length, (index) => colors[index]);
+
+      colorPalette.generateColors();
+
+      colorPalette.colors.forEach((element) {
+        var index = colorPalette.colors.indexOf(element);
+        if (index % 2 == 0) {
+          expect(element, colors[index]);
+        }
+      });
     });
   });
 }

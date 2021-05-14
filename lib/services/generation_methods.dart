@@ -1,9 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../helpers/color_helper.dart';
-import '../models/swatch_model.dart';
 
-enum GenMethodEnum { rand, pastel, median }
+enum GenMethodEnum { rand, pastel, median, hsl, lerp }
 
 abstract class GenerationMethod {
   static GenerationMethod mapEnum(GenMethodEnum genMethodEnum) {
@@ -14,6 +15,10 @@ abstract class GenerationMethod {
         return PastelGenerationMethod();
       case GenMethodEnum.rand:
         return RandomGenerationMethod();
+      case GenMethodEnum.hsl:
+        return HSLGenerationMethod();
+      case GenMethodEnum.lerp:
+        return LerpGenerationMethod();
       default:
         assert(false, 'Unknown Generation method');
         return RandomGenerationMethod();
@@ -22,28 +27,24 @@ abstract class GenerationMethod {
 
   const GenerationMethod();
 
-  List<SwatchModel> Generate(List<SwatchModel> colors);
+  List<Color> Generate(List<Color> colors);
 }
 
 class PastelGenerationMethod extends GenerationMethod {
   @override
-  List<SwatchModel> Generate(List<SwatchModel> colors) {
-    return List<SwatchModel>.generate(
-        colors.length,
-        (_) => SwatchModel(
-            colorVal: ColorHelper.randomMixedColor(Colors.white).value));
+  List<Color> Generate(List<Color> colors) {
+    return List<Color>.generate(
+        colors.length, (index) => ColorHelper.randomMixedColor(Colors.white));
   }
 }
 
 class MedianGenerationMethod extends GenerationMethod {
   @override
-  List<SwatchModel> Generate(List<SwatchModel> colors) {
-    var medianColor = ColorHelper.getSwatchListMedian(colors);
+  List<Color> Generate(List<Color> colors) {
+    var medianColor = ColorHelper.getColorListMedian(colors);
 
-    return List<SwatchModel>.generate(
-        colors.length,
-        (_) => SwatchModel(
-            colorVal: ColorHelper.randomMixedColor(medianColor).value));
+    return List<Color>.generate(
+        colors.length, (index) => ColorHelper.randomMixedColor(medianColor));
   }
 }
 
@@ -51,8 +52,32 @@ class RandomGenerationMethod extends GenerationMethod {
   const RandomGenerationMethod();
 
   @override
-  List<SwatchModel> Generate(List<SwatchModel> colors) {
-    return List<SwatchModel>.generate(colors.length,
-        (_) => SwatchModel(colorVal: ColorHelper.randomColor().value));
+  List<Color> Generate(List<Color> colors) {
+    return List<Color>.generate(
+        colors.length, (index) => ColorHelper.randomColor());
+  }
+}
+
+class HSLGenerationMethod extends GenerationMethod {
+  @override
+  List<Color> Generate(List<Color> colors) {
+    return List<Color>.generate(
+        colors.length,
+        (index) => HSLColor.fromAHSL(1.0, index + (360 / colors.length),
+                Random().nextDouble(), Random().nextDouble())
+            .toColor());
+  }
+}
+
+class LerpGenerationMethod extends GenerationMethod {
+  @override
+  List<Color> Generate(List<Color> colors) {
+    var initialColor = HSLColor.fromColor(ColorHelper.randomColor());
+    var finalColor = HSLColor.fromColor(ColorHelper.randomColor());
+    return List<Color>.generate(
+        colors.length,
+        (index) =>
+            HSLColor.lerp(initialColor, finalColor, index / colors.length)!
+                .toColor());
   }
 }
