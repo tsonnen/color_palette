@@ -63,7 +63,7 @@ class HSLGenerationMethod extends GenerationMethod {
   List<Color> Generate(List<Color> colors) {
     return List<Color>.generate(
         colors.length,
-        (index) => HSLColor.fromAHSL(1.0, index + (360 / colors.length),
+        (index) => HSLColor.fromAHSL(1.0, (index * (360 / colors.length)),
                 Random().nextDouble(), Random().nextDouble())
             .toColor());
   }

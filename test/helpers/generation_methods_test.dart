@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:color_palette/helpers/color_helper.dart';
@@ -48,6 +47,15 @@ void main() {
               element.green,
               inInclusiveRange(
                   medianColor.green ~/ 2, (medianColor.green + 255) ~/ 2));
+        });
+      });
+      test('Test HSL generation', () {
+        var genMethod = HSLGenerationMethod();
+        var generated = genMethod.Generate(colors);
+
+        generated.forEach((element) {
+          expect(HSLColor.fromColor(element).hue,
+              generated.indexOf(element) * (360 / generated.length));
         });
       });
     });
