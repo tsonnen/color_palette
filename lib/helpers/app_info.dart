@@ -4,7 +4,7 @@ class AppInfo {
   static PackageInfo? _packageInfo;
   static String get version => _packageInfo?.version ?? 'TESTING';
 
-  static void getAppInfo() async {
+  static Future<void> getAppInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
   }
 }
